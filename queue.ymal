@@ -1,0 +1,16 @@
+queue:
+- name: default
+  rate: 1/s
+
+- name: mail-queue
+  rate: 2000/d
+  bucket_size: 10
+
+- name: background-processing
+  rate: 5/s
+
+- name: whenever-processing
+  rate: 1/m
+  
+- name: search-indexing
+  rate: 4/m

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}World List Page {{ page }}{% endblock %}
+
+{% block head %}
+	<link rel="alternate" type="application/rss+xml" title="Latest Worlds on Sybil" href="/discover/worlds/rss/" />
+{% endblock %}
+
+
+{% block content %}
+
+<strong>Sort By:</strong>
+{% for sort_link in sort_links %}
+{{ sort_link }}{% if forloop.first %} | {% endif %}{% if forloop.last %}<br />{% endif %}
+{% endfor %}
+
+{% if world_list %}
+    <table class="expand">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Author</th>
+            </tr>
+        </thead>
+        <tbody>
+		{% for world in world_list %}
+        <tr>
+            <td><a href="{{ world.url }}">{{ world.name }}</a></td>
+            <td><a href="{{ world.author.url }}">{{ world.author.nickname }}</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <center>
+			{% if page > 1 %}<a href="{{ request.url|filter_args("page") }}page={{ page - 1 }}">&lt; Prev</a>{% else %}&lt; Prev{% endif %}
+			<span style="padding:0px 3px;">- {{ page }} -</span>
+			{% if not last_page %}<a href="{{ request.url|filter_args("page") }}page={{ page + 1 }}">Next &gt;</a>{% else %}Next &gt;{% endif %}
+    </center>
+{% else %}
+    No worlds to display!<br/>
+{% endif %}
+
+{% endblock %}
+
+{% block sidebar_header %}
+        <li>
+            <h2>World List</h2>
+            <ul><li>This page lists all world chronologically or alphabetically.</li></ul>
+        </li>
+{% endblock %}

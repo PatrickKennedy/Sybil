@@ -1,0 +1,14 @@
+<ul id="comments">
+{% if comment_data.comments -%}
+	{% for comment in comment_data.comments -%}
+	{% include 'common/comment_display.html' %}
+	{% endfor %}
+	<center>
+		{% if comment_data.page != 1 %}<a href="{{ request.url|filter_args("comments_page") }}comments_page={{ comment_data.page - 1 }}">&lt; Prev</a>{% else %}&lt; Prev{% endif %}
+		<span style="padding:0px 3px;">- {{ comment_data.page }} -</span>
+		{% if not comment_data.last_page %}<a href="{{ request.url|filter_args("comments_page") }}comments_page={{ comment_data.page + 1 }}">Next &gt;</a>{% else %}Next &gt;{% endif %}
+	</center>
+{% else %}
+	<li>No comments to display.</li>
+{% endif %}
+</ul>

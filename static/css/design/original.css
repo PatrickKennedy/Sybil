@@ -1,0 +1,329 @@
+/*
+    Theme Name: Blue Zinfandel Squared Modified
+    Theme URL: http://www.briangardner.com/themes/blue-zinfandel-squared-wordpress-theme.htm
+    Description: Blue Zinfandel Squaredis a modern, 2-column theme created for Wordpress.  Column moved to right in modified version.
+    Author: Brian Gardner, modified by Patrick Kennedy
+    Author URI: http://www.briangardner.com
+    Version: 1.0b
+
+    The CSS, XHTML and design is released under GPL:
+    http://www.opensource.org/licenses/gpl-license.php
+
+    Changelog:
+        v1.0 - 12.27.06
+            First Release of Blue Zinfandel Squared
+*/
+
+body {
+    background-color: White;
+    color: #333333;
+    font-size: 11px;
+    font-family: Verdana, Helvetica, Sans-Serif;
+}
+
+#container {
+    background: White;
+}
+
+#sidebar #message{
+    color: White;
+	font-weight: bold;
+	padding: 3px 8px;
+}
+
+.message_date {
+	margin-top: 3px;
+	color: #AAAAAA;
+}
+
+.comment_date {
+	color: #AAAAAA;
+}
+
+/************************************************
+*    Hyperlinks                                 *
+************************************************/
+
+a, a:visited{
+	color: #77AEBD;
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+/************************************************
+*    Common Effects                             *
+************************************************/
+.expand {
+	width: 100%;
+}
+
+.alignright {
+    float: right;
+}
+
+.alignleft {
+    float: left;
+}
+
+input, textarea, select {
+    background: #FFFFFF;
+    color: #555;
+    font-size: 12px;
+    font-family: Verdana, Helvetica, Sans-Serif;
+    border: 1px solid;
+	border-color: inherit;
+}
+
+/************************************************
+*    Header                                     *
+************************************************/
+
+/*#header_wrap {
+    position: fixed;
+    top: 0px;
+}*/
+
+#header {
+    background-color: White;
+    width: 770px;
+    height: auto;
+    margin: 0px;
+    padding: 10px 0px;
+    text-align: center;
+}
+
+#header a {
+    font-family: "Times New Roman", Helvetica, Sans-Serif;
+    font-size: 36px;
+    color: #333333;
+    padding: 0px 10px;
+    margin: 0px;
+	text-decoration: none;
+    text-transform: uppercase;
+}
+
+#header a:hover{
+    color: #333333;
+}
+
+/************************************************
+*    Navbar                                     *
+************************************************/
+
+#navbar {
+    background-color: White;
+    text-align: center;
+    border-top: 1px solid;
+	border-top-color: inherit;
+    border-bottom: 1px solid;
+	border-bottom-color: inherit;
+}
+
+#navbar li {
+    display: inline;
+}
+
+#navbar li a {
+    font-family: Times New Roman, Helvetica, Sans-Serif;
+    font-size: 20px;
+    color: #333333;
+	text-decoration: none;
+    text-transform: uppercase;
+}
+
+#navbar li a:hover {
+    color: #658DB5;
+}
+
+/************************************************
+*    Panes                                      *
+************************************************/
+
+/************************************************
+*    Content                                    *
+************************************************/
+
+#content {
+	background-color: White;
+}
+
+#content p.haiku {
+    line-height: 22px;
+    font-size: 14px;
+    font-family: Times New Roman, Helvetica, Sans-Serif;
+}
+
+#content p img{
+    /*float: left;*/
+    border: none;
+}
+
+#content h1 {
+    color: #333333;
+    font-size: 22px;
+    font-family: Times New Roman, Verdana, Arial, Sans-Serif;
+    font-weight: normal;
+}
+
+#content h1 a  {
+    color: #333333;
+    text-decoration: none;
+}
+
+#content h1 a:hover {
+    color: #658DB5;
+    text-decoration: none;
+}
+
+#content h2 {
+    color: #333333;
+    font-size: 18px;
+    font-family: Times New Roman, Verdana, Arial, Sans-Serif;
+    font-weight: normal;
+    border-top: 1px solid;
+	border-top-color: inherit;
+    border-bottom: 1px solid;
+	border-bottom-color: inherit;
+}
+
+blockquote{
+    font-style: italic;
+    color: #666666;
+    border-left: 3px solid;
+	border-left-color: inherit;
+}
+
+/************************************************
+*    Content Nav                                *
+************************************************/
+
+#contentnav {
+    background-color: White;
+    text-align: center;
+    border-left: 1px solid;
+	border-left-color: inherit;
+}
+
+#contentnav li a {
+    font-family: Verdana, Times New Roman, Sans-Serif;
+    font-size: 11px;
+    color: #333333;
+}
+
+#contentnav li a:hover {
+    color: #658DB5;
+	text-decoration: none;
+}
+
+/************************************************
+*    Sidebar                                    *
+************************************************/
+
+#sidebar {
+    background-color: White;
+    border-left: 1px solid;
+	border-left-color: inherit;
+}
+
+#sidebar textarea {
+	width: 100%;
+}
+
+#sidebar h2 {
+	color: #333333;
+}
+
+/************************************************
+*    Comments                                   *
+************************************************/
+
+#comments blockquote {
+    color: #666666;
+    border-left: 3px solid;
+	border-left-color: inherit;
+    font-style: normal;
+}
+
+#comments blockquote p {
+    display: block;
+    font-style: italic;
+}
+
+/************************************************
+*    Content Middle                             *
+************************************************/
+
+#contentmiddle {
+	background-color: White;
+}
+
+/************************************************
+*    Footer                                     *
+************************************************/
+#footer {
+    background-color: White;
+	border-top: 1px solid;
+	border-top-color: inherit;
+    text-align: center;
+    font-size: 9px;
+}
+
+/************************************************
+*    Search Form                                *
+************************************************/
+
+#search form input {
+    background-color: White;
+    color: #888888;
+    font-size: 11px;
+    font-family: Verdana, Helvetica, Sans-Serif;
+    padding: 2px;
+    margin: 7px 0px 0px 0px;
+    border: 1px solid #C0C0C0;
+}
+
+/************************************************
+*    Tables                                     *
+************************************************/
+
+table {
+    margin: 5px 0px;
+    font-size: 1.1em;
+}
+
+table .center * {
+    text-align: center;
+}
+
+table input, table textarea, table select {
+    width: 100%;
+}
+
+table th {
+    background-color: #70A0C0;
+    color: #fff;
+    font-weight: bold;
+    padding: 2px 6px;
+    text-align: left;
+    border-right: 1px solid White;
+    line-height: 1.2em;
+}
+
+table .inline_header {
+	padding: 6px 0px;
+	border-top-color: inherit;
+}
+
+table .inline_body {
+	padding-left: 3.2em;
+	padding-right: 1em;
+}
+table td {
+	padding: 6px;
+	padding-top: 1em;
+	vertical-align: middle;
+	text-align: justify;
+}

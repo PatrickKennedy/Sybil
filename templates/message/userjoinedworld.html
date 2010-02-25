@@ -1,0 +1,13 @@
+{#
+Generates a user joined message from a WorldMember object.
+This is a Permanent message
+#}
+
+{% if author_owns %}
+<span class="message_header"><a href="{{ user.url }}">{{ user.nickname }}</a>
+joined <a href="{{ world.url }}">{{ world.name }}</a></span>
+{% else %}
+<span class="message_header"><a href="{{ author.url }}">{{ author.nickname }}</a>
+added <a href="{{ user.url }}">{{ user.nickname }}</a>
+to <a href="{{ world.url }}">{{ world.name }}</a></span>
+{% endif %}

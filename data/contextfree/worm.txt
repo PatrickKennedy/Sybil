@@ -1,0 +1,13 @@
+<a href="http://www.azarask.in/projects/algorithm-ink/#e37eb62a" style="color: black;">"Worm"</a> by Unknown
+startshape DOT
+
+rule DOT{
+  CIRCLE{ s 4 b 1 a -.9 }
+  CIRCLE{ s 55 b 1 a -.9 x .25}
+  CIRCLE{ s .33 b 1 a -.5 }  
+  CIRCLE{ s .3 b .5 sat 0 }
+}
+
+rule MOUSEMOVE{
+  DOT{ }
+}

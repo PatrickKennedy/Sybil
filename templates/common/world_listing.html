@@ -1,0 +1,40 @@
+{#
+A list of worlds passed in `worlds`
+if `list_author` is True the owner of each world will be displayed
+if `page_admin` is True and a `profile` is passed it will generate a "X" leave link
+if `page_admin` and `list_leave` are True a "Leave" link will be displayed
+#}
+
+{% if world_data.worlds %}
+		<table class="expand">
+			{% if not world_data.hide_header %}<thead>
+				<tr class="center">
+					<th>Name</th>
+					{% if world_data.list_author %}<th>Author</th>{% endif %}
+				{% if page_admin %}
+					{# Only allow for one or the other #}
+					{% if profile %}<th>X</th>
+					{% elif world_data.list_leave %}<th>Leave</th>{% endif %}
+				{% endif %}
+				</tr>
+			</thead>{% endif %}
+			<tbody>
+			{% for world in world_data.worlds %}
+				<tr class="center">
+					<td><a href="{{ world.url }}">{{ world.name }}</a></td>
+					{% if world_data.list_author %}<td><a href="{{ world.author.url }}">{{ world.author.nickname }}</a></td>{% endif %}
+				{% if page_admin %}
+					{% if profile %}<td><a href="/world/leave/?world_key={{ world.key_name }}&profile_key={{ profile.key_name }}">&bull;</a></td>
+					{% elif world_data.list_leave %}<td><a href="/world/edit/dismiss_members/?members={{ udata.nickname }}&key_name={{ world.key_name }}">Leave</a></td>{% endif %}
+				{% endif %}
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+{% elif page_admin %}
+	Need a world to join? <a href="/create/world">Make one!</a>
+{% elif profile %}
+	Profile not in any worlds.
+{% else %}
+	No worlds to display.
+{% endif %}

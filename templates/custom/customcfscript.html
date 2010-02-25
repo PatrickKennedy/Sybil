@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Customize Your ContextFree Script{% endblock %}
+
+{% block content %}
+
+Here you can customize your CF script as you see fit.<br/>
+Only you will be able to see your script, however, if you would like to share it
+please email <a href="mailto:Sybil.Support@gmail.com">Sybil.Support@gmail.com</a>.
+
+<form action="/custom/cf_script/" method="post">
+    <textarea name="cf_script" class="expand" rows="25">{{ udata.custom_cf_script}}</textarea><br />
+    <input type="submit" name="action" value="Save" />
+    <input type="submit" name="action" value="Cancel" />
+    <input type="submit" name="action" style="float:right;" value="Preview" />
+</form>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+            <table class="expand">
+                <thead>
+                    <tr class="center">
+                        <th><span>Name</span></th>
+                        <th><span>Age</span></th>
+                        <th><span>Gender</span></th>
+                        <th><span>Race</span></th>
+                        <th><span>Height</span></th>
+                        <th><span>Weight</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="center">
+                        <td>{{ profile.name|escape }}</td>
+                        <td>{{ profile.age|escape }}</td>
+                        <td>{{ profile.gender|escape }}</td>
+                        <td>{{ profile.race|escape }}</td>
+                        <td>{{ profile.height|escape }}</td>
+                        <td>{{ profile.weight|escape }}</td>
+                    </tr>
+
+                    {% if profile.apperence %}
+                    <!--tr class="center inline_header">
+                        <td colspan=6><span>Appearance</span></td>
+                    </tr-->
+                    <tr><td colspan=6>
+                        <div class="inline_header"><h2>Appearance</h2></div>
+                        <div class="inline_body">{{ profile|markup("apperence") }}</div>
+                    </td></tr>
+                    {% endif %}
+                    {% if profile.background %}
+                    <!--tr class="center inline_header">
+                        <td colspan=6><span>Background</span></td>
+                    </tr-->
+                    <tr><td colspan=6>
+                        <div class="inline_header"><h2>Background</h2></div>
+                        <div class="inline_body">{{ profile|markup("background") }}</div>
+                    </td></tr>
+                    {% endif %}
+                    {% if profile.extra_info %}
+                    <!--tr class="center inline_header">
+                        <td colspan=6><span>Extra Info</span></td>
+                    </tr-->
+                    <tr><td colspan=6>
+                        <div class="inline_header"><h2>Extra Info</h2></div>
+                        <div class="inline_body">{{ profile|markup("extra_info") }}</div>
+                    </td></tr>
+                    {% endif %}
+                </tbody>
+            </table>

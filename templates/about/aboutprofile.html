@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{#% block breadcrumb %}{{ block.super }} &raquo; <a href="/about_profile/">About</a>{% endblock %#}
+
+{% block title %}About Profiles{% endblock %}
+
+{% block description %}Profiles store all your character's information and can be sorted into upto five worlds{% endblock %}
+
+{% block content %}
+<h2>The Low Down</h2>
+<ul>
+    <li>Profiles store all your character's information and can be sorted into
+    upto five <a href="/about/world/">worlds</a>.</li>
+</ul>
+<h2>Available Options</h2>
+<ul>
+    <li>
+        <strong>Public/Private</strong><br />
+        - When <i>Public</i> the profile can viewed by anyone.<br />
+        - When <i>Private</i> the profile is considered Unknown to anyone but you.
+    </li>
+    <li>
+        <strong>Markup</strong><br />
+        Sybil supports two markup languages. Which you use is entirely up to you. <br />
+        - <i><a href="http://hobix.com/textile/">Textile</a></i> is simpler and easier to understand <br />
+        - <i><a href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">reStructuredText</a></i> is better suited for developers who already use it.
+    </li>
+</ul>
+{% endblock %}
+
+{% block sidebar %}
+        <li>
+            <h2>Options</h2>
+            <ul>
+                <li>You'll see these options when you edit a profile.
+                <li><input type='radio' name='public' value='True' /> Public</li>
+                <li><input type='radio' name='public' value='False' /> Private</li>
+
+                <li>Sybil will render the profile in the selected markup langauge.</li>
+                <li><input type='radio' name='markup' value='Textile' checked /> <a href="http://hobix.com/textile/">Textile</a></li>
+                <li><input type='radio' name='markup' value='ReST'/> <a href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">reStructuredText</a></li>
+            </ul>
+        </li>
+{% endblock %}

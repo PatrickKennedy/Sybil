@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Sybil's Changelog{% endblock %}
+
+{% block description %}Sybil is a character profile manager that helps you keep your characters organized.{% endblock %}
+
+{% block content %}
+	<p>
+		<h2>Latest Goings Ons (July. 1st, 2009)</h2><br />
+		One month passes. Another wild update is seen!<br />
+		<br />
+		- Say hello to
+		{% if user %}<a href="/manage/update/design/?design=elegance&next=/">{% else %}
+		<a href="/?design=elegance">{% endif %}Elegance</a>, a new design for Sybil!
+		If you don't like Elegance you are free to switch back to the
+		{% if user %}<a href="/manage/update/design/?design=original&next=/">{% else %}
+		<a href="/">{% endif %}Original</a> design.<br />
+		<br />
+		P.S. Some profiles and worlds are loading due to encoding errors. I'm not sure what's causing these errors though so bear with me.
+	</p>
+	<p>
+		<h2>Latest Goings Ons (June. 1st, 2009)</h2><br />
+		Five months pass. A wild update is seen! Use the Master Ball!
+		Too lazy to add a change log page, B T W.<br/>
+		<br/>
+		- Stats should be consistantly accurate now.<br/>
+		- Added stats to more pages which can be refreshed by page authors.<br/>
+		- Added new ContextFree scripts: DreamTree, MagicTree (processing intensive),
+		and FoggyCity (click to activate)<br/>
+	</p>
+	<p>
+		<h2>Latest Goings Ons (Jan. 19th, 2009)</h2><br />
+		In an effort to keep all 3 of my users informed about the progress on
+		Sybil I've decided to start making change logs! I'll add a page for them later.<br />
+		<br/>
+		- Updated profile formats to /username/character+name/<br />
+		- Updated profile actions to /username/character+name/edit/<br />
+		- Added RSS feed for a user's latest profiles at /username/rss/<br />
+		I will be adding more RSS Feeds for latest profiles, worlds and latest profiles in a world.
+	</p>
+{% endblock %}
+

@@ -1,0 +1,87 @@
+"Bubbles" by Unknown
+startshape start
+
+rule start{
+ DRAW{x -1.5 y 1}
+}
+
+rule DRAW .5 {
+ SPIKES{s .08 rotate 45 hue 320 sat .8 b .3}
+ SPIKES{ s .03 rotate 180}
+ SPIKES{ s .03 rotate 0}
+ SPIKES{ s .03 rotate 270}
+ SPIKES{ s .03 rotate 90}
+ DOTS{ s .275 rotate 180 b 1 a -.86}
+ DOTS{ s .275 rotate 0 b 1 a -.96}
+ DOTS{ s .275 rotate 270 b 1 a -.86}
+ DOTS{ s .275 rotate 90 b 1 a -.96}
+}
+rule DRAW 0 {
+ SPIKES{s .08 rotate 135 hue 320 sat .8 b .3}
+ SPIKES{ s .03 rotate 180}
+ SPIKES{ s .03 rotate 0}
+ SPIKES{ s .03 rotate 270}
+ SPIKES{ s .03 rotate 90}
+}
+rule DRAW 0 {
+ SPIKES{s .06 rotate 45 hue 24 sat 1 b .5}
+ SPIKES{ s .03 rotate 180}
+ SPIKES{ s .03 rotate 0}
+ SPIKES{ s .03 rotate 270}
+ SPIKES{ s .03 rotate 90}
+}
+rule DRAW 0 {
+ SPIKES{s .06 rotate 135 hue 24 sat 1 b .5}
+ SPIKES{ s .03 rotate 180}
+ SPIKES{ s .03 rotate 0}
+ SPIKES{ s .03 rotate 270}
+ SPIKES{ s .03 rotate 90}
+}
+
+rule SPIKES{
+ LSPIKE {.05 rotate 140 hue 200 sat .3 b .7}
+ RSPIKE {.05 rotate 200 hue 200 sat .3 b .7}
+ KSPIKE {.05 rotate 80 hue 200 sat .3 b .7}
+ DICK {.05 rotate 20 hue 200 sat .3 b .7}
+}
+rule LSPIKE{
+ SQUARE{s 1}
+ LSPIKE { y 2 s .95 r 3}
+}
+rule RSPIKE{
+ SQUARE{s 1}
+ RSPIKE {y 2 s .95 r 1}
+}
+rule KSPIKE{
+ SQUARE{s 1}
+ KSPIKE{y 2 s .95 r 6}
+}
+rule DICK{
+ SQUARE{s 1}
+ DICK{y 2 s .95 r 9}
+}
+rule DOTS{
+ LDOT {.05 rotate 140 hue 200 sat .3 b .7}
+ RDOT {.05 rotate 200 hue 200 sat .3 b .7}
+ KDOT {.05 rotate 80 hue 200 sat .3 b .7}
+ DOT {.05 rotate 20 hue 200 sat .3 b .7}
+}
+rule LDOT{
+ CIRCLE{s 1}
+ LDOT { y 2 s .95 r 3}
+}
+rule RDOT{
+ CIRCLE{s 1}
+ RDOT {y 2 s .95 r 1}
+}
+rule KDOT{
+ CIRCLE{s 1}
+ KDOT{y 2 s .95 r 6}
+}
+rule DOT{
+ CIRCLE{s 1}
+ DOT{y 2 s .95 r 9}
+}
+rule MOUSECLICK {
+ DRAW{}
+}

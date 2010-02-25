@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Listings{% endblock %}
+
+{% block sidebar_header %}
+		<li>
+            <h2>Listings</h2>
+            <ul><li>For a complete listing of all profiles and worlds click the links above the tables.</li></ul>
+        </li>
+{% endblock %}
+
+{% block content %}
+    	<p><h2><a href="/discover/profiles/">Recently Created Profiles</a></h2>
+	    <table class="expand">
+			<thead>
+				<tr class="center">
+					<th>Name</th>
+					<th>Author</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for profile in recent_profiles %}
+				<tr class="center">
+					<td><a href="{{ profile.url }}">{{ profile.name }}</a></td>
+					<td><a href="{{ profile.author.url }}">{{ profile.author.nickname }}</a></td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table></p>
+
+    	<p><h2><a href="/discover/worlds/">Recently Created Worlds</a></h2>
+	    <table class="expand">
+			<thead>
+				<tr class="center">
+					<th>Name</th>
+					<th>Author</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for world in recent_worlds %}
+				<tr class="center">
+					<td><a href="{{ world.url }}">{{ world.name }}</a></td>
+					<td><a href="{{ world.author.url }}">{{ world.author.nickname }}</a></td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table></p>
+{% endblock %}

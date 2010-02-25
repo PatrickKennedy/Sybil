@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}About Worlds{% endblock %}
+
+{% block description %}Worlds provide a convenient way of tying profiles with common backgrounds together.{% endblock %}
+
+
+{% block content %}
+<h2>The Low Down</h2>
+<ul>
+    <li>Worlds provide a convenient way of tying profiles with common backgrounds together.</li>
+    <li>
+        A few examples include:<br />
+        - Fleshing out the world several of your characters are in.<br />
+        - Providing a central reposity for Role Playing characters.<br />
+        - Creating "Theme" worlds for people to make up characters for (See <a href="/world/?name=Springfield">Springfield</a>).
+    </li>
+</ul>
+<h2>Available Options</h2>
+<ul>
+    <li>
+        <strong>Public/Private</strong><br />
+        - When <i>Public</i> the world can viewed by anyone.<br />
+        - When <i>Private</i> the world can only be viewed by members.
+    </li>
+    <li>
+        <strong>Open/Closed</strong><br />
+        - When <i>Open</i> anyone who can view the world is allowed to add profiles.<br />
+        - When <i>Closed</i> only members can add profiles.
+    </li>
+    <li>
+        <strong>Markup</strong><br />
+        Sybil supports two markup languages. Which you use is entirely up to you. <br />
+        - <i><a href="http://hobix.com/textile/">Textile</a></i> is simpler and easier to understand <br />
+        - <i><a href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">reStructuredText</a></i> is better suited for developers who already use it.
+    </li>
+</ul>
+{% endblock %}
+
+{% block sidebar %}
+        <li>
+            <h2>Options</h2>
+            <ul>
+                <li>Private worlds cannot be seen by anyone but you and it"s members.</li>
+                <li><input type="radio" name="public" value="True" checked /> Public</li>
+                <li><input type="radio" name="public" value="False" /> Private</li>
+
+                <li>If a world is open then anyone who can view it can add profiles.</li>
+                <li><input type="radio" name="open" value="True" /> Open</li>
+                <li><input type="radio" name="open" value="False" checked /> Closed</li>
+
+                <li>Sybil will render the profile in the selected markup langauge.</li>
+                <li><input type="radio" name="markup" value="Textile" checked /> <a href="http://hobix.com/textile/">Textile</a></li>
+                <li><input type="radio" name="markup" value="ReST"/> <a href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">reStructuredText</a></li>
+            </ul>
+        </li>
+{% endblock %}

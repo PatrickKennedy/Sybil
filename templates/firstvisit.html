@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}First Visit{% endblock %}
+
+{% block sidebar_header %}
+        <li>
+            <h2>First Visit</h2>
+            <ul>
+                <li>Sybil's version of a registration page.</li>
+            </ul>
+        </li>
+{% endblock %}
+{% block sidebar %}
+		{% if taken or debug %}
+        <li>
+            <h2>Submit a Support Ticket</h2>
+            <ul>
+				<li>If someone has stolen your nickname please email me at
+				<a href="mailto:sybil.support@gmail.com?subject=Stolen%20Name%20Ticket">Sybil.Support@gmail.com</a></li>
+            </ul>
+        </li>
+		{% endif %}
+    </form>
+{% endblock sidebar %}
+
+{% block content %}
+<p><strong>Welcome to Sybil!</strong><br />I appricate you taking the time to log in and look around!
+If you have any questions don't hesitate to email <a href="mailto:sybil.support@gmail.com">Sybil.Support@gmail.com</a>
+</p>
+
+<p>
+At this time the one and only requirement for using Sybil is to have a nickname.
+This allows the users who don't have @gmail.com accounts use Sybil too.<br/>
+<form action="/first/visit/?continue={{ continue_ }}" method="post">
+	<input type="text" name="nick" value="{{ user.nickname() }}" /><input type="submit" value="Submit" /><br/>
+	Only letters (a-Z), numbers (0-9), periods (.), dashes (-) and underscores (_) are allowed.
+</p>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Character ({{ profile.name }}){% endblock %}
+
+{% block content %}
+
+<strong>WARNING!</strong> You cannot undo this action!<br/>
+To delete the character, enter the name exactly as shown:<br/>
+
+<p><strong>{{ profile.name }}</strong></p>
+
+<form action="{{ profile.author.url }}{{ profile.unix_name }}/delete/" method="post">
+    <input name="profile_key" type="hidden" value="{{ profile.key() }}"/>
+    <input name="name" type="hidden" value="{{ profile.name }}"/>
+    <input name="name_check" type="text" value="" />
+    <input name="choice" type="submit" value="Confirm"/>
+    <input name="choice" type="submit" value="Cancel"/>
+</form>
+
+{% endblock %}

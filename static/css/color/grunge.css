@@ -1,0 +1,157 @@
+/*
+    Theme Name: Blue Zinfandel Squared Modified
+    Theme URL: http://www.briangardner.com/themes/blue-zinfandel-squared-wordpress-theme.htm
+    Description: Blue Zinfandel Squaredis a modern, 2-column theme created for Wordpress.  Column moved to right in modified version.
+    Author: Brian Gardner, modified by Patrick Kennedy
+    Author URI: http://www.briangardner.com
+    Version: 1.0b
+
+    The CSS, XHTML and design is released under GPL:
+    http://www.opensource.org/licenses/gpl-license.php
+
+    Changelog:
+        v1.0 - 12.27.06
+            First Release of Blue Zinfandel Squared
+*/
+
+* {
+	border-color: #34332F;
+}
+
+body {
+	background-color: #34332F !important;
+    background-image: url('/static/grunge_background.jpg');
+	background-attachment: fixed;
+}
+
+#container {
+	border: 1px solid #34332F;
+}
+
+#message, .humanMsg{
+	background-color: #34332F;
+	border: 1px solid Black;
+}
+
+input, textarea, select {
+    border: 1px solid #34332F;
+}
+
+/************************************************
+*    Hyperlinks                                 *
+************************************************/
+
+a, a:visited{
+    color: #837B79;
+}
+
+a:hover {
+    color: #34332F;
+	text-decoration: none;
+}
+
+/************************************************
+*    Header                                     *
+************************************************/
+
+/*#header_wrap {
+    position: fixed;
+    top: 0px;
+}*/
+
+#header {
+    background: #FFFFFF !important;
+}
+
+#header a {
+    color: #333333;
+}
+
+#header a:hover{
+    color: #333333;
+}
+
+/************************************************
+*    Navbar                                     *
+************************************************/
+
+#navbar {
+    background: #FFFFFF;
+}
+
+#navbar li a {
+    color: #837B79;
+}
+
+#navbar li a:hover {
+    color: #34332F;
+}
+
+/************************************************
+*    Content                                    *
+************************************************/
+
+#content h2 {
+}
+
+blockquote {
+}
+
+/************************************************
+*    Content Nav                                *
+************************************************/
+
+#contentnav {
+    background-color: white;
+}
+
+#contentnav li a {
+    color: #837B79;
+}
+
+#contentnav li a:hover {
+    color: #34332F;
+}
+
+/************************************************
+*    Sidebar                                    *
+************************************************/
+
+#sidebar {
+    list-style: none;
+    border-left: 1px solid #34332F;
+    background-color: white;
+}
+
+#sidebar li ul {
+    list-style: none;
+}
+
+/************************************************
+*    Content Middle                             *
+************************************************/
+
+#contentmiddle {
+    background-color: white;
+}
+
+#contentmiddle ul {
+    list-style: none;
+}
+
+/************************************************
+*    Footer                                     *
+************************************************/
+
+#footer {
+    background: #FFFFFF;
+}
+
+
+/************************************************
+*    Tables                                     *
+************************************************/
+
+table th {
+	background-color: #34332F;
+}

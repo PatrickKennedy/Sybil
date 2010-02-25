@@ -1,0 +1,25 @@
+Common Page Elements
+====================
+
+Common page elements are any snippets which can be included into a page.
+All elements should require their own namespace dictionary (eg. profile_data).
+
+Page elements may be separated into different files using the following suffixes
+and must be able to stand on their own in a page (ie. it can't be part of a
+table, although at the same time <li> elements are acceptable).
+
+_box::
+    Boxes are fully self-contained elements which typically make use of the
+	following elements. Boxes make it easy to rearrange and maintain elements.
+
+_listing::
+    Render lists of items. What gets listed depends on the content; for example,
+	profile_listing renders a list of names and any extra information from the
+	profiles passed, whereas comment_listing renders a list of full comments.
+
+_display::
+    Render the main content of the element; for example, profile_display
+    handles the logic involved in rendering the displayed table.
+
+Additionally, all elements should include some form of documentation describing
+how it should be used and what options it has.

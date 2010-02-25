@@ -1,0 +1,414 @@
+/*
+    Design Name: Elegance
+    Description: Elegantly layed out text adds a certain charm.
+    Author: Patrick Kennedy
+    Version: 1.0
+
+    The CSS, XHTML and design is released under GPL:
+    http://www.opensource.org/licenses/gpl-license.php
+
+    Changelog:
+        v1.0 - 12.27.06
+            First Release of Elegance
+*/
+
+body {
+    background-color: White;
+    color: #333333;
+    font-size: 11px;
+    font-family: Verdana, Helvetica, Sans-Serif;
+}
+
+#container {
+    background: White;
+}
+
+#sidebar #message{
+    color: #FFF;
+	font-weight: bold;
+	padding: 3px 8px;
+}
+
+.message_date {
+	margin-top: 3px;
+	color: #AAAAAA;
+}
+
+.comment_date {
+	color: #AAAAAA;
+}
+
+/************************************************
+*    Hyperlinks                                 *
+************************************************/
+
+a, a:visited{
+	color: #77AEBD;
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+/************************************************
+*    Common Effects                             *
+************************************************/
+.expand {
+	width: 100%;
+}
+
+.alignright {
+    float: right;
+}
+
+.alignleft {
+    float: left;
+}
+
+input, textarea, select {
+    background: #FFFFFF;
+    color: #555;
+    font-size: 12px;
+    font-family: Verdana, Helvetica, Sans-Serif;
+    border: 1px solid;
+}
+
+/************************************************
+*    Banner Ad                                  *
+************************************************/
+.ad table * {
+	border-width: 0px;
+}
+
+.banner {
+	margin: -13px 0px 7px;
+}
+
+.half-banner {
+	margin: -15px 0px -15px;
+}
+
+
+/************************************************
+*    Header                                     *
+************************************************/
+
+/*#header_wrap {
+    position: fixed;
+    top: 0px;
+}*/
+
+#header {
+    background-color: White;
+    height: auto;
+    padding: 10px 0px;
+    text-align: center;
+}
+
+#header a {
+	font-family: "Times New Roman", Georgia, Sans-Serif;
+	font-size: 36px;
+    color: #333333;
+    padding: 0px 10px;
+	text-decoration: none;
+    text-transform: uppercase;
+	letter-spacing: .25em;
+}
+
+#header a:hover{
+    color: #333333;
+}
+
+/************************************************
+*    Navbar                                     *
+************************************************/
+
+#navbar {
+    background-color: White;
+    padding: 10px 0px;
+    text-align: center;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+	border-color: inherit;
+}
+
+#navbar li {
+    display: inline;
+    list-style-type: none;
+}
+
+#navbar li a {
+    font-family: "Times New Roman", Georgia, Sans-Serif;
+    font-size: 20px;
+    color: #333333;
+    padding: 0px 10px;
+	text-decoration: none;
+    text-transform: uppercase;
+	letter-spacing: .20em;
+}
+
+#navbar li a:hover {
+    color: #658DB5;
+}
+
+/************************************************
+*    Panes                                      *
+************************************************/
+
+/************************************************
+*    Content                                    *
+************************************************/
+
+#content p.haiku {
+    line-height: 22px;
+    font-size: 14px;
+    font-family: "Times New Roman", Georgia, Sans-Serif;
+}
+
+#content p img{
+    /*float: left;*/
+    border: none;
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+
+#content h1 {
+    color: #333333;
+    font-size: 22px;
+    font-family: "Times New Roman", Georgia, Sans-Serif;
+    font-weight: normal;
+}
+
+#content h1 a  {
+    color: #333333;
+    text-decoration: none;
+}
+
+#content h1 a:hover {
+    color: #658DB5;
+    text-decoration: none;
+}
+
+#content h2 {
+    color: #333333;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0px;
+    padding: 6px 0px;
+    border-bottom: 1px solid;
+	border-bottom-color: inherit;
+	text-align: center;
+	letter-spacing: .5em;
+}
+
+blockquote{
+    margin: 0px 0px 0px 25px;
+    padding: 0px 25px 0px 10px;
+    font-style: italic;
+    color: #666666;
+    border-left: 3px solid;
+	border-left-color: inherit;
+}
+
+#content blockquote p{
+    padding: 0em .5em;
+}
+
+/************************************************
+*    Content Nav                                *
+************************************************/
+
+#contentnav {
+    background-color: White;
+    text-align: center;
+    padding: 6px 0px;
+    border-bottom: 1px solid;
+	border-bottom-color: inherit;
+    border-left: 1px solid;
+	border-left-color: inherit;
+}
+
+#contentnav li {
+    display: inline;
+    margin: 0px;
+    padding: 0px 3px;
+}
+
+#contentnav li a {
+    font-size: 11px;
+    color: #333333;
+	letter-spacing: .25em;
+}
+
+#contentnav li a:hover {
+    color: #658DB5;
+	text-decoration: none;
+}
+
+/************************************************
+*    Sidebar                                    *
+************************************************/
+
+#sidebar {
+    background-color: White;
+    padding-top: 6px;
+    border-left: 1px solid;
+	border-left-color: inherit;
+}
+
+#sidebar textarea {
+	width: 100%;
+}
+
+#sidebar h2 {
+	color: #333333;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-bottom: 6px;
+}
+
+/************************************************
+*    Comments                                   *
+************************************************/
+
+#comments blockquote {
+    margin: 0px;
+    margin-left: 15px;
+    padding: 0px 25px 0px 10px;
+    color: #666666;
+    border-left: 3px solid;
+	border-left-color: inherit;
+    font-style: normal;
+}
+
+#comments blockquote p {
+    margin: .5em 0px;
+    display: block;
+    font-style: italic;
+}
+
+/************************************************
+*    Content Middle                             *
+************************************************/
+
+#contentmiddle {
+    background-color: White;
+}
+
+/************************************************
+*    Footer                                     *
+************************************************/
+#footer {
+    background-color: White;
+    position: relative;
+	border-top: 1px solid;
+	border-top-color: inherit;
+    text-align: center;
+    font-size: 9px;
+}
+
+/************************************************
+*    Search Form                                *
+************************************************/
+
+#searchdiv {
+    margin: 0px;
+    padding: 0px;
+}
+
+#search form {
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+#search form input {
+    background: #FFFFFF;
+    color: #888888;
+    font-size: 11px;
+    font-family: Verdana, Helvetica, Sans-Serif;
+    padding: 2px;
+    margin: 7px 0px 0px 0px;
+    border: 1px solid;
+	border-color: inherit;
+}
+
+/************************************************
+*    Tables                                     *
+************************************************/
+
+table {
+    margin: 5px 0px;
+    font-size: 1.1em;
+}
+
+/*table th {
+    background: #70A0C0;
+    color: #fff;
+    font-weight: bold;
+    padding: 2px;
+    text-align: left;
+    border-right: 1px solid #fff;
+    line-height: 1.2em;
+	letter-spacing: .1em;
+}*/
+
+table th {
+	background: none !important;
+	font-weight: normal;
+	text-align: center;
+    line-height: 1.2em;
+	letter-spacing: .25em;
+	padding: 2px;
+	border-left: solid .25em;
+	border-left-color: Transparent !important;
+	border-right: solid .75em;
+	border-right-color: Transparent !important;
+	border-bottom: solid 1px;
+	border-bottom-color: inherit;
+}
+
+/*table th span {
+	padding-left: 6px;
+	padding-right: 6px;
+	padding-bottom: 2px;
+	border-bottom: 1px solid Black;
+}*/
+
+table .inline_header {
+	width: 50%;
+	max-width: 75%;
+	margin-left: auto;
+	margin-right: auto;
+	letter-spacing: .75em;
+	text-align: center;
+	border: 0;
+	border-color: inherit;
+}
+
+table .inline_header h2 {
+	padding-left: 3.5em;
+	padding-right: 2.75em;
+	padding-bottom: 6px;
+	border-bottom: solid 1px;
+	border-bottom-color: inherit;
+	font-size: 14px;
+}
+
+/*table .inline_header td {
+	padding-top: 2.2em;
+	letter-spacing: .75em;
+}*/
+
+table .inline_body {
+	/*padding-left: 3.2em;*/
+	padding-left: 1em;
+	padding-right: 1em;
+}
+
+table td {
+	padding: 6px 6px;
+	vertical-align: middle;
+	text-align: justify;
+}

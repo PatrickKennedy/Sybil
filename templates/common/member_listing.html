@@ -1,0 +1,27 @@
+{#
+
+#}
+			{% if member_data.members %}
+				<table class="expand">
+			        {% if not member_data.hide_header %}<thead>
+						<tr class="center">
+							<th{% if not page_admin %} colspan='2'{% endif %}>Name</th>
+							{% if page_admin %}<th>Dismiss</th>{% endif %}
+						</tr>
+					</thead>{% endif %}
+					<tbody>
+					{% for member in member_data.members %}
+						<tr class="center">
+							<td><a href='/{{ member.user.nickname }}/'>{{ member.user.nickname }}</a></td>
+							{% if True or page_admin and not loop.first %}
+							<td><a href='/world/edit/dismiss_members/?members={{ member.user.nickname }}&key_name={{ world.key_name }}'>Dismiss</a></td>
+							{% else %}
+							<td></td>
+							{% endif %}
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			{% else %}
+				No members to display.
+			{% endif %}

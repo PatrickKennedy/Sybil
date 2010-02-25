@@ -1,0 +1,61 @@
+{#
+
+#}
+	{% if profile_data.profiles %}
+		<table class="expand">
+			{% if not profile_data.hide_header %}<thead>
+				<tr class="center">
+					<th>Name</th>
+				{% if profile_data.partial_listing %}
+					<th>Age</th>
+					<th>Gender</th>
+					<th>Race</th>
+				{% endif %}
+				{% if profile_data.list_author %}
+					<th>Author</th>
+				{% endif %}
+				{% if profile_data.page_admin %}
+					{% if profile_data.list_edit %}
+					<th>Edit</th>
+					{% endif %}
+					{% if profile_data.list_remove and world %}
+					<th>X</th>
+					{% endif %}
+				{% endif %}
+				</tr>
+			</thead>{% endif %}
+			<tbody>
+			{% for profile in profile_data.profiles %}
+				<tr class="center">
+					<td><a href="{{ profile.url }}">{{ profile.name }}</a></td>
+				{% if profile_data.partial_listing %}
+					<td>{{profile.age}}</td>
+					<td>{{profile.gender}}</td>
+					<td>{{profile.race}}</td>
+				{% endif %}
+				{% if profile_data.list_author %}
+					<td><a href="{{ profile.author.url }}">{{ profile.author.nickname }}</a></td>
+				{% endif %}
+				{% if profile_data.page_admin %}
+				{% if profile_data.list_edit %}
+					<td><a href="{{profile.edit_url }}">Edit</a></td>
+				{% endif %}
+				{% if profile_data.list_remove and world %}
+					<td style="text-align:center;"><a href="/world/leave/?world_key={{ world.key_name }}&profile_key={{ profile.key_name }}">&bull;</a></td>
+				{% endif %}
+				{% endif %}
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	{% if profile_data.list_pages %}
+		<center>
+			{% if profile_data.page != 1 %}<a href="{{ request.url|filter_args("profiles_page") }}profiles_page={{ profile_data.page - 1 }}">&lt; Prev</a>{% else %}&lt; Prev{% endif %}
+			<span style="padding:0px 3px;">- {{ profile_data.page }} -</span>
+			{% if not profile_data.last_page %}<a href="{{ request.url|filter_args("profiles_page") }}profiles_page={{ profile_data.page + 1 }}">Next &gt;</a>{% else %}Next &gt;{% endif %}
+		</center>
+	{% endif %}
+	{% else %}
+		No profiles to display.
+	{% endif %}
+	

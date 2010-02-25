@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Editing World ({{ world.name }}){% endblock %}
+
+{% block content %}
+
+<form action="/world/edit/update/" method="post">
+    <input type="hidden" name="name" value="{{ world.name }}" />
+    <input type="hidden" name="key_name" value="{{ world.key_name }}" />
+    <table class="expand">
+        <thead>
+            <tr class="center">
+                <th>Name</th>
+                <th>About</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input name="name" value="{{ world.name }}" size=14 disabled /></td>
+                <td colspan=5><textarea name="about" rows="14" cols="40">{{ world.about }}</textarea></td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="submit" name="submit_action" value="Save" /><input type="submit" name="submit_action" value="Cancel" />
+
+
+{% endblock %}
+
+{% block sidebar_header %}
+        <li>
+            <h2>Edit World</h2>
+            <ul>
+                <li>This page lets you edit a World.</li>
+                <li>Markupable fields: <i>About</i>, <i>Links</i></li>
+            </ul>
+        </li>
+
+        <li>
+            <h2>Options</h2>
+            <ul>
+                <li>Private worlds cannot be seen by anyone but you and it"s members.</li>
+                <li><input type="radio" name="public" value="True" {% if world.public %}checked{% endif %} /> Public</li>
+                <li><input type="radio" name="public" value="False" {% if not world.public %}checked{% endif %} /> Private</li>
+                <li>If a world is open then anyone who can view it can add profiles.</li>
+                <li><input type="radio" name="open" value="True" {% if world.open %}checked{% endif %} /> Open</li>
+                <li><input type="radio" name="open" value="False" {% if not world.open %}checked{% endif %} /> Closed</li>
+            </ul>
+            <ul>
+                <li>Sybil will render the profile in the selected markup langauge.</li>
+                <li><input type="radio" name="markup" value="PlainText"{% if world.markup == "PlainText" %} checked{% endif %}/> Plain Text</li>
+                <li><input type="radio" name="markup" value="Textile"{% if world.markup == "Textile" %} checked{% endif %}/> <a href="http://hobix.com/textile/">Textile</a></li>
+                <li><input type="radio" name="markup" value="ReST"{% if world.markup == "ReST" %} checked{% endif %}/> <a href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">reStructuredText</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <h2>Links</h2>
+            <ul>
+                <li>Content here is displayed in the sidebar.</li>
+                <li><textarea name="links" rows="8" cols="40">{{ world.links }}</textarea>
+            </ul>
+        </li>
+
+        <li>
+            <h2>Common Elements</h2>
+            <ul>
+                <li>Content here will be appended to the fields that accept markup.</li>
+            {#% if world.markup == "ReST" %}
+                <li><strong>Example (ReST)</strong></li>
+                <li>In the input field: <pre>Python_ is great!</pre></li>
+                <li>In the field below: <pre>.. _Python: http://www.python.org</pre></li>
+            {% elif profile.markup == "Textile" %}
+                <li><strong>Example (Textile)</strong></li>
+                <li>In the input field: <pre>"Python":python_link is great!</pre></li>
+                <li>In the field below: <pre>[python_link]http://www.python.org</pre></li>
+            {% endif %#}
+                <li><textarea name="common" rows="8" cols="40">{{ world.common }}</textarea>
+            </ul>
+        </li>
+
+    </form>
+{% endblock %}

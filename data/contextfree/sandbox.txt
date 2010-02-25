@@ -1,0 +1,30 @@
+<a href="http://www.azarask.in/projects/algorithm-ink/#e37eb62a" style="color: black;">"Gods Sandbox"</a> by Hugh
+startshape go
+
+rule go{ init{ x 1 s 3 } }
+rule init{
+ loop{ a -1 s 2 y 0 x 0 } 
+}
+
+rule loop .01{
+ init{ y 1.61 x 1 s 1.25 } 
+ loop{}
+}
+
+rule loop{
+ shape{ b .5 sat .5 }
+ loop{ y .35 a .001 s .978 r 54 hue 60 }
+}
+
+
+rule shape{
+ TRIANGLE{}
+}
+
+rule pickcolor{ loop{ a -1 hue 120 s 1} }
+rule pickcolor{ loop{ a -1 hue 180 s .9 } }
+rule pickcolor{ loop{ a -1 hue 240 s .8} }
+rule pickcolor{ loop{ a -1 hue 60 s .7 } }
+
+
+rule MOUSECLICK{ pickcolor{} }

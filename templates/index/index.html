@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{#% block title %}Home Sweet Home{% endblock %#}
+
+{% block description %}Sybil is a character profile manager that helps you keep your characters organized.{% endblock %}
+
+{% block content %}
+    <p>
+        <b>Welcome to Sybil!</b><br />
+        Get started by {% if not user %}logging in!{% else %}creating a profile!
+        Below are a few names to get your creative juices flowing. Enjoy! (Refresh to get 5 more.){% endif %}
+    </p>
+	<p>
+		<h2>Latest Goings Ons (Sept. 18th, 2009)</h2><br />
+		This update adds 7 new ContextFree scripts!<br />
+		<ul>
+			<li><a href="/?cf_script=starspiral">Star Spiral</a></li>
+			<li><a href="/?cf_script=heart">Heart</a></li>
+			<li><a href="/?cf_script=eclipse">Eclipse</a></li>
+			<li><a href="/?cf_script=tulips">Tulips</a></li>
+			<li><a href="/?cf_script=sandbox">Gods Sandbox</a></li>
+			<li><a href="/?cf_script=crystaline">Crystaline</a></li>
+			<li><a href="/?cf_script=daze">Daze</a> (Also the new default)</li>
+		</ul>
+		Additionally, each script displays a credit for each author.
+	</p>
+	<p>
+		<h2>Latest Goings Ons (Sept. 16th, 2009)</h2><br />
+		Welcome to the Not-Quite-All New Sybil!<br />
+		As of almost tomorrow Sybil's backend has been completely overhauled to 
+		be more maintainable, stable, and possibly faster (not to say that was 
+		an issue, but every little bit).<br />
+		<br />
+		In terms of tangible changes I've further cleaned up Sybil's CSS and 
+		broken comments and likely messages. Although, I did make an effort to 
+		make things more outage-proof. In most cases Sybil will alert you when 
+		she can't do things (as opposed to just breaking).<br />
+		<br />
+		Finally, I'm going to add full-text seraching soon. My main hold up is
+		where to fit in a search bar ;D<br />
+		<a href="/changelog/">Older Goings Ons</a>
+	</p>
+    <table class="expand">
+        <thead>
+            <tr>
+                <th colspan=2>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for name in names %}
+            <tr>
+                <td>{{ name }}</td>
+                <td><a href="/create/profile/?name={{ name }}">Save</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br />
+    <div class="inputbox">
+        <form action="/" method="get">
+            <div style="display: inline; font-size: 12px;">Name Length:</div>
+            <input maxlength="2" size="2" name="length" type="text" value="{{ len_ }}" />
+            <input type="submit" value="Generate" />
+        </form>
+    </div>
+
+{% endblock %}
+
+
+{% block sidebar_header %}
+    <li>
+        <h2>Sybil Statistics</h2>
+        <ul>
+			<li>Sybil is home to</li>
+			<li>&bull; {{ profile_count }}{% if page_admin %}<a href="/update/count/all_profiles/">&#181;</a>{% endif %} profiles,</li>
+			<li>&bull; living in {{ world_count }}{% if page_admin %}<a href="/update/count/all_worlds/">&#181;</a>{% endif %} worlds,</li>
+			<li>&bull; created by {{ user_count }}{% if page_admin %}<a href="/update/count/all_users/">&#181;</a>{% endif %} users</li>
+		</ul>
+    </li>
+
+	<li>
+		<h2>Recent Profiles</h2>
+        <ul><li>
+	    <li>{% include 'common/profile_listing.html' %}</li>
+        </ul></li>
+    </li>
+{% endblock %}
+{% block sidebar %}
+    <li>
+    	<h2>Recent Worlds</h2>
+        <ul><li>
+	    <li>{% include 'common/world_listing.html' %}</li>
+        </ul></li>
+
+	</li>
+
+{% endblock %}

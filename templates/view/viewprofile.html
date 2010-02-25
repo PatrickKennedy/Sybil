@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}{{ profile.name }} by {{ profile.author.nickname }}{% endblock %}
+
+{% block description %}{{ profile.name }}: Last updated - {{ profile.updated|date("N jS, Y H:i") }} - Copyright &copy; {{ year }} - {{ profile.author.nickname }} {% endblock %}
+
+{% block content %}
+    {% include 'common/profile_display.html' %}
+{% endblock %}
+
+{% block contentnav %}
+{% if page_admin %}
+	<li><a href="{{ profile.edit_url }}">Edit</a></li> &bull;
+	<li><a href="{{ profile.delete_url }}">Delete</a></li> |
+{% endif %}
+{% endblock %}
+
+{% block sidebar_header %}
+            <li>
+                <h2>Statistics</h2>
+                <ul>
+                    {#<li>Created on {{profile.created|date("F jS, Y H:i")}}</li>#}
+                    <li>&bull; Created: {{ profile.created|date("N jS, Y H:i") }}</li>
+                    <li>&bull; Updated: {{ profile.updated|date("N jS, Y H:i") }}</li>
+					<li>&bull; Word Count: {{ profile.word_count }}{% if page_admin %}<a href="/update/count/profile_words/{{ profile.key() }}/">&#181;</a>{% endif %}
+                </ul>
+            </li>
+{% endblock %}
+{% block sidebar %}
+            <li>
+                <h2>Worlds</h2>
+                <ul>
+                <li>{% include 'common/world_listing.html' %}</li>
+                {% if page_admin %}
+					<li><form action="/world/join/" method="post">
+                        <input type="hidden" name="profile_key" value="{{ profile.key() }}" />
+                        <input type="text" name="name" size="12" />
+                        <input type="submit" value="Join World" />
+                    </form></li>{% endif %}
+                </ul>
+            </li>
+
+		{% if profile.links %}
+			<li>
+				<h2>Links</h2>
+				<ul>
+					<li>{{ profile|markup("links") }}</li>
+				</ul>
+			</li>
+		{% endif %}
+
+            <li>
+                <h2>Comments</h2>
+                {% include 'common/comment_box.html' %}
+            </li>
+
+			<li><center>Copyright &copy; {{ year }} - <a href="{{ profile.author.url }}">{{ profile.author.nickname }}</a></center></li>
+{% endblock %}

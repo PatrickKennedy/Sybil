@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Customize Your Theme{% endblock %}
+
+{% block content %}
+
+Here you can customize your theme as you see fit.<br/>
+Only you will be able to see your theme, however, if you would like to share it
+please email <a href="mailto:Sybil.Support@gmail.com">Sybil.Support@gmail.com</a>.
+
+<form action="/custom/theme/" method="post">
+    <textarea name="custom_css" class="expand" rows="25">{{ udata.custom_css }}</textarea><br />
+    <input type="submit" name="action" value="Save" />
+    <input type="submit" name="action" value="Cancel" />
+</form>
+
+{% endblock %}

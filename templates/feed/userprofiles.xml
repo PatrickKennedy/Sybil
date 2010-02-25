@@ -1,0 +1,44 @@
+{% extends "feed/base.xml" %}
+
+{% block channel_info %}
+	<title>{{ adata.nickname }}'s Latest Profiles</title>
+	<atom:link href="{{ host_url }}{{ adata.url }}rss/" rel="self" type="application/rss+xml" />
+	<link>{{ host_url }}{{ adata.url }}</link>
+	<description>Sybil is a centralized character profile repository.</description>
+{% endblock %}
+
+{% block items -%}
+{% if profile_data.profiles %}
+	{% for profile in profile_data.profiles -%}
+	<item>
+		<title>{{ profile.name }}</title>
+		<link>{{ host_url }}{{ profile.url }}</link>
+		<guid>{{ host_url }}{{ profile.url }}</guid>
+		<description></description>
+		<content:encoded><![CDATA[
+				<b>Name:</b> {{ profile.name|escape }}<br />
+				<b>Age:</b> {{ profile.age|escape }}<br />
+				<b>Gender:</b> {{ profile.gender|escape }}<br />
+				<b>Race:</b> {{ profile.race|escape }}<br />
+				<b>Height:</b> {{ profile.height|escape }}<br />
+				<b>Weight:</b> {{ profile.weight|escape }}<br />
+
+			{% if profile.apperence -%}<p>
+				<b>Appearance</b>
+				{{ profile|markup("apperence") }}
+			</p>{% endif %}
+			{% if profile.background -%}<p>
+				<b>Background</b>
+				{{ profile|markup("background") }}
+			</p>{% endif %}
+			{% if profile.extra_info -%}<p>
+				<b>Extra Info</b>
+				{{ profile|markup("extra_info") }}
+			</p>{% endif %}
+			]]></content:encoded>
+		<pubDate>{{ profile.created|date('D, d M Y H:i:s') }} -0800 </pubDate>
+		<dc:creator>{{ adata.nickname }}</dc:creator>
+	</item>
+	{% endfor %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,460 @@
+/*
+    Theme Name: Blue Zinfandel Squared Modified
+    Theme URL: http://www.briangardner.com/themes/blue-zinfandel-squared-wordpress-theme.htm
+    Description: Blue Zinfandel Squaredis a modern, 2-column theme created for Wordpress.  Column moved to right in modified version.
+    Author: Brian Gardner, modified by Patrick Kennedy
+    Author URI: http://www.briangardner.com
+    Version: 1.0b
+
+    The CSS, XHTML and design is released under GPL:
+    http://www.opensource.org/licenses/gpl-license.php
+
+    Changelog:
+        v1.0 - 12.27.06
+            First Release of Blue Zinfandel Squared
+*/
+
+* {
+	vertical-align: baseline;
+	font-weight: inherit;
+	font-family: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	outline: 0;
+	padding: 0;
+	margin: 0;
+}
+
+body {
+    margin: 0px auto 0px;
+    padding: 0px;
+}
+
+#container {
+	position: relative;
+    width: 800px;
+    margin: 25px auto;
+    overflow: hidden;
+}
+
+#sidebar #message{
+	padding: 3px 8px;
+}
+
+.message_date {
+	margin-top: 3px;
+}
+
+.comment_date {
+}
+
+/************************************************
+*    Message Colors                             *
+************************************************/
+.info {
+}
+
+.alert {
+}
+
+.error {
+}
+
+/************************************************
+*    Hyperlinks                                 *
+************************************************/
+
+a, a:visited{
+}
+
+a:hover{
+}
+
+/************************************************
+*    Common Effects                             *
+************************************************/
+.expand {
+	width: 100%;
+}
+
+.alignright {
+    float: right;
+}
+
+.alignleft {
+    float: left;
+}
+
+input, textarea, select {
+}
+
+/************************************************
+*    Banner Ad                                  *
+************************************************/
+.ad table * {
+}
+
+.banner {
+	margin: -13px 0px 7px;
+}
+
+.half-banner {
+	margin: -15px 0px -15px;
+}
+
+#adsense_banner_ad {
+	padding: 6px 0px 6px 16px;
+}
+
+/************************************************
+*    Images                                     *
+************************************************/
+p img {
+    padding: 0;
+    max-width: 100%;
+}
+
+/*    Using 'class="alignright"' on an image will (who would've
+    thought?!) align the image to the right. And using 'class="centered',
+    will of course center the image. This is much better than using
+    align="center", being much more futureproof (and valid) */
+
+img.centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.alignright {
+    padding: 4px;
+    margin: 0 0 2px 7px;
+    display: inline;
+}
+
+img.alignleft {
+    padding: 4px;
+    margin: 0 7px 2px 0;
+    display: inline;
+}
+
+/************************************************
+*    Header                                     *
+************************************************/
+
+/*#header_wrap {
+    position: fixed;
+    top: 0px;
+}*/
+
+#header {
+    width: 100%;
+    height: auto;
+    margin: 0px;
+    padding: 10px 0px;
+    text-align: center;
+}
+
+#header a {
+    padding: 0px 10px;
+    margin: 0px;
+	text-decoration: none;
+}
+
+#header a:hover{
+}
+
+/************************************************
+*    Navbar                                     *
+************************************************/
+
+#navbar {
+    width: 100%;
+    margin: 0px;
+    padding: 10px 0px;
+    text-align: center;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+	background-color: DarkKhaki ;
+}
+
+#navbar li {
+    display: inline;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+#navbar li a {
+    font-size: 20px;
+    padding: 0px 10px;
+    margin: 0px;
+	text-decoration: none;
+}
+
+#navbar li a:hover {
+    color: #658DB5;
+}
+
+/************************************************
+*    Left Pane                                  *
+************************************************/
+
+
+#leftpane {
+    float: left;
+    width: 500px;
+}
+
+#rightpane {
+    float: left;
+    width: 300px;
+}
+
+/************************************************
+*    Content                                    *
+************************************************/
+
+#content {
+    width: 100%;
+    margin: 0px auto 0px;
+    padding: 0px;
+}
+
+#content p{
+    padding-top: .5em;
+    padding-bottom: .5em;
+    margin: 0px;
+}
+
+
+#content p.haiku {
+    line-height: 22px;
+    font-size: 14px;
+}
+
+#content p img{
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+
+#content h1 {
+    padding: 0px;
+    margin: 0px;
+}
+
+#content h1 a  {
+    text-decoration: none;
+}
+
+#content h1 a:hover {
+    text-decoration: none;
+}
+
+#content h2 {
+    color: #333333;
+    margin: 0px;
+    padding: 5px 0px 5px 20px;
+}
+
+#content p ol{
+    margin: 0px;
+    padding: 0px 0px 0px 20px;
+}
+
+#content p ul{
+    margin: 0px;
+    padding: 0px 0px 0px 20px;
+}
+
+blockquote{
+    margin: 0px 0px 0px 25px;
+    padding: 0px 25px 0px 10px;
+    border-left: 3px solid;
+}
+
+#content blockquote p{
+    margin: 0px;
+    padding-top: .5em;
+    padding-bottom: .5em;
+}
+
+/************************************************
+*    Content Nav                                *
+************************************************/
+
+#contentnav {
+    text-align: center;
+    margin: 0px;
+    padding: 5px;
+    /*border-bottom: 1px solid #C0C0D0;*/
+    border-left: 1px solid;
+    background-color: Tan;
+}
+
+#contentnav li {
+    display: inline;
+    margin: 0px;
+    padding: 0px 3px;
+}
+
+#contentnav li a {
+}
+
+#contentnav li a:hover {
+	text-decoration: none;
+}
+
+/************************************************
+*    Sidebar                                    *
+************************************************/
+
+#sidebar {
+	list-style: none;
+    padding: 0px;
+    margin: 0px;
+    padding-bottom: 32100px;
+	margin-bottom: -32080px;
+    border-left: 1px solid;
+    background-color: #FFD46F;
+}
+
+#sidebar textarea {
+	width: 100%;
+}
+
+#sidebar h2 {
+	color: #333333;
+    margin: 0px 20px;
+}
+
+#sidebar li ul {
+    float: none;
+    width: 238px;
+    list-style: none;
+    margin: 0px 30px;
+    padding: 0px 0px 20px 0px;
+}
+
+#sidebar li ul li {
+    margin: 0px;
+    padding: 2px 0px;
+}
+
+/************************************************
+*    Comments                                   *
+************************************************/
+
+#comments .comment {
+    padding-bottom: 1.5em;
+}
+
+#comments blockquote {
+    margin: 0px;
+    margin-left: 15px;
+    padding: 0px 25px 0px 10px;
+    border-left: 3px solid;
+    font-style: normal;
+}
+
+#comments blockquote p {
+    margin: .5em 0px;
+    display: block;
+    font-style: italic;
+}
+
+/************************************************
+*    Content Middle                             *
+************************************************/
+
+#contentmiddle {
+    margin: 0px;
+    padding: 10px 20px 10px 20px;
+    padding-bottom: 32100px;
+	margin-bottom: -32080px;
+    background-color: #638F72;
+}
+
+#contentmiddle ul {
+    margin: 0px;
+    padding: 0px 0px 20px 0px;
+}
+
+#contentmiddle ul li {
+    margin: 0px;
+    padding: 5px 0px 0px 5px;
+}
+
+/************************************************
+*    Footer                                     *
+************************************************/
+#footer {
+    background-color: Orange;
+    position: relative;
+    width: 100%;
+	padding: 6px 0px;
+	font-size: 9px;
+	text-align: center;
+	border-top: 1px solid;
+}
+
+/************************************************
+*    Search Form                                *
+************************************************/
+
+#searchdiv {
+    margin: 0px;
+    padding: 0px;
+}
+
+#search form {
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+#search form input {
+    padding: 2px;
+    margin: 7px 0px 0px 0px;
+    border: 1px solid;
+}
+
+/************************************************
+*    Tables                                     *
+************************************************/
+
+table {
+	border-color: transparent;
+	border-collapse: collapse;
+    margin: 5px 0px;
+    font-size: 1.1em;
+}
+
+table .center * {
+    text-align: center;
+}
+
+table input, table textarea, table select {
+    width: 100%;
+}
+
+table tr.info *, table tr.alert *, table tr.error * {
+}
+
+table th {
+    padding: 2px 6px;
+    line-height: 1.2em;
+}
+
+table .inline_header {
+	padding: 6px 0px;
+}
+
+table .section_body {
+	padding-left: 3.2em;
+	padding-bottom: 2.2em;
+}
+table td {
+	padding: 6px;
+	vertical-align: middle;
+	text-align: justify;
+}

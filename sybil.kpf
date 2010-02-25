@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Komodo Project File - DO NOT EDIT -->
+<project id="f99eced3-f56a-4981-8565-1cf8a8c85bca" kpf_version="4" name="sybil.kpf">
+<command cwd="C:\appengine" doNotOpenOutputWindow="0" env="" icon="chrome://famfamfamsilk/skin/icons/transmit.png" id="03825a59-3527-41d1-9ac7-d8512eb1bb52" idref="4fe18887-13e4-46d0-b2e9-c71b59063e30" insertOutput="0" keyboard_shortcut="" name="Update Sybil" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="new-console" showParsedOutputList="0">
+appcfg.py --email=pakattack161 update %p</command>
+<command cwd="%p" doNotOpenOutputWindow="0" env="" id="14eee4f7-abea-4319-b373-9ced505c2a80" idref="4fe18887-13e4-46d0-b2e9-c71b59063e30" insertOutput="0" keyboard_shortcut="" name="Run Public Server" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+C:\Python25\python.exe ..\dev_appserver.py -a 0.0.0.0 --datastore_path=B:\Python\sybil\sybil.datastore --history_path=B:\Python\sybil\sybil.datastore.history %p</command>
+<command cwd="C:\Programming\google_appengine" doNotOpenOutputWindow="0" env="PYTHONPATH=[[%p]]" id="34fea368-7662-43f0-bf5e-744a022aef09" idref="4fe18887-13e4-46d0-b2e9-c71b59063e30" insertOutput="0" keyboard_shortcut="" name="Upload to Production Server" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="new-console" showParsedOutputList="0">
+appcfg.py upload_data --email=Pakattack161@gmail.com --config_file=sybil_loaders.py --filename=%w_data_archive.csv --kind=%w --url=http://sybil.appspot.com/remote_api %p</command>
+<URL id="896c925f-6632-4879-b956-c86840c23cf3" idref="4fe18887-13e4-46d0-b2e9-c71b59063e30" keyboard_shortcut="" name="Localhost:8080">
+http://localhost:8080/</URL>
+<command cwd="C:\Programming\google_appengine" doNotOpenOutputWindow="0" env="PYTHONPATH=[[%p]]" id="9480a7ed-d4ef-4a9c-9a46-a7247908ec6b" idref="4fe18887-13e4-46d0-b2e9-c71b59063e30" insertOutput="0" keyboard_shortcut="" name="Upload to Dev Server" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="new-console" showParsedOutputList="0">
+appcfg.py upload_data --email=Pakattack161@gmail.com --config_file=sybil_loaders.py --filename=%w_data_archive.csv --kind=%w --url=http://localhost:8080/remote_api %p</command>
+<command cwd="C:\Programming\google_appengine" doNotOpenOutputWindow="0" env="" id="9b48ce70-dfbd-46e2-b593-302324a29c38" idref="4fe18887-13e4-46d0-b2e9-c71b59063e30" insertOutput="0" keyboard_shortcut="" name="Clear Archive" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="no-console" showParsedOutputList="0">
+DEL %w_data_archive.csv</command>
+<command cwd="C:\Programming\google_appengine" doNotOpenOutputWindow="0" env="PYTHONPATH=C:\\Programming\\google_appengine\\sybil" id="bd4f9efd-fc84-47aa-a14f-d3edd827962d" idref="4fe18887-13e4-46d0-b2e9-c71b59063e30" insertOutput="0" keyboard_shortcut="" name="Download Data" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="new-console" showParsedOutputList="0">
+appcfg.py download_data --config_file=sybil_loaders.py --db_filename=%D\%w_progress.sql3 --result_db_filename=%D\%w_results.sql3 --filename=%D\%w_data_archive.csv --kind=%w sybil</command>
+<command cwd="C:\Programming\google_appengine" doNotOpenOutputWindow="0" env="" id="dcb2ae64-2555-41fe-a812-d5ffa6ae09c5" idref="4fe18887-13e4-46d0-b2e9-c71b59063e30" insertOutput="0" keyboard_shortcut="" name="Echo Test" operateOnSelection="0" parseOutput="0" parseRegex="" runIn="command-output-window" showParsedOutputList="0">
+echo %P</command>
+<URL id="e57aa104-77eb-4016-80d0-6f0516dde523" idref="4fe18887-13e4-46d0-b2e9-c71b59063e30" keyboard_shortcut="" name="Sybil Admin Console">
+http://appengine.google.com/dashboard?&amp;app_id=sybil</URL>
+<folder id="4fe18887-13e4-46d0-b2e9-c71b59063e30" idref="f99eced3-f56a-4981-8565-1cf8a8c85bca" name="commands">
+</folder>
+<template id="61c7cb6c-b53b-49c0-a575-fb4f9cf924c9" idref="f99eced3-f56a-4981-8565-1cf8a8c85bca" name="new sybil page.py" url="file:///C:/Documents%20and%20Settings/Patrick/Application%20Data/ActiveState/KomodoIDE/4.4/templates/My%20Templates/new%20sybil%20page.py">
+</template>
+<preference-set idref="b693fafc-f244-45e6-adee-70b33c6ac18d">
+<preference-set id="Invocations">
+<preference-set id="default">
+  <string id="cookieparams"></string>
+  <string id="cwd"></string>
+  <string id="documentRoot"></string>
+  <string id="executable-params"></string>
+  <string relative="path" id="filename">common/stores.py</string>
+  <string id="getparams"></string>
+  <string id="language">Python</string>
+  <string id="mpostparams"></string>
+  <string id="params"></string>
+  <string id="postparams"></string>
+  <string id="posttype">application/x-www-form-urlencoded</string>
+  <string id="request-method">GET</string>
+  <boolean id="show-dialog">1</boolean>
+  <boolean id="sim-cgi">0</boolean>
+  <boolean id="use-console">0</boolean>
+  <string id="userCGIEnvironment"></string>
+  <string id="userEnvironment"></string>
+</preference-set>
+</preference-set>
+  <string id="lastInvocation">default</string>
+</preference-set>
+<preference-set idref="f99eced3-f56a-4981-8565-1cf8a8c85bca">
+  <string id="import_exclude_matches">*.*~;*.bak;*.tmp;CVS;.#*;*.pyo;*.pyc;.svn;_svn;*%*;tmp*.html;.DS_Store</string>
+  <string id="import_include_matches"></string>
+  <boolean id="import_live">1</boolean>
+  <boolean id="import_recursive">1</boolean>
+  <string id="import_type">useFolders</string>
+  <string id="mappedPaths"></string>
+  <string id="pythonExtraPaths">C:\Programming\google_appengine;C:\Programming\google_appengine\lib;C:\Programming\google_appengine\sybil-refactor</string>
+  <string id="rubyExtraPaths"></string>
+</preference-set>
+<preference-set idref="f99eced3-f56a-4981-8565-1cf8a8c85bca/docutils">
+  <string id="import_exclude_matches">*.*~;*.bak;*.tmp;CVS;.#*;*.pyo;*.pyc;.svn;_svn;*%*;tmp*.html;.DS_Store</string>
+  <string id="import_include_matches"></string>
+  <boolean id="import_live">0</boolean>
+  <boolean id="import_recursive">0</boolean>
+  <string id="import_type">makeFlat</string>
+</preference-set>
+<preference-set idref="f99eced3-f56a-4981-8565-1cf8a8c85bca/jinja2">
+  <string id="import_exclude_matches">*.*~;*.bak;*.tmp;CVS;.#*;*.pyo;*.pyc;.svn;_svn;*%*;tmp*.html;.DS_Store</string>
+  <string id="import_include_matches"></string>
+  <boolean id="import_live">0</boolean>
+  <boolean id="import_recursive">0</boolean>
+  <string id="import_type">makeFlat</string>
+</preference-set>
+</project>

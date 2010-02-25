@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+	 xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	 xmlns:dc="http://purl.org/dc/elements/1.1/"
+	 xmlns:atom="http://www.w3.org/2005/Atom"
+>
+	<channel>
+	{% block channel_info -%}
+		<title> TITLE </title>
+		<link> LINK TO PAGE </link>
+		<description> DESCRIPTION OF SITE </description>
+	{% endblock %}
+		<language>en</language>
+
+	{% block items -%}
+		<item>
+			<title> ARTICLE TITLE </title>
+			<link> LINK TO ARTICLE </link>
+			<description> SHORT TEXT DESCRIPTION </description>
+		</item>
+	{% endblock %}
+	</channel>
+
+</rss>

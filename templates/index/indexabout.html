@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block sidebar_header %}
+        <li>
+            <h2>Sidebar</h2>
+            <ul>
+                <li>Extra information, including system messages will be displayed in this area.</li>
+                <li>Example Messages:<br/>
+                &bull; <a href="{{ request.path }}?msg=Operation+Sucessful!">Success</a><br/>
+                &bull; <a href="{{ request.path }}?msg=Missing+Thinger">Alert</a><br/>
+                &bull; <a href="{{ request.path }}?msg=Speling+Failed!">Failure</a>
+                </li>
+            </ul>
+        </li>
+{% endblock %}
+{% block sidebar %}
+        <li>
+            <h2>In Depth</h2>
+            <ul>
+                <li>&bull; <a href="/about/profile/">Profiles</a></li>
+                <li>&bull; <a href="/about/world/">Worlds</a></li>
+            </ul>
+        </li>
+{% endblock sidebar %}
+
+{% block content %}
+
+Sybil (Store Your Beings In Limbo) lets you create and share your
+<a href='/about/profile/'>character profiles</a> from one place,
+helping you and your roleplaying circles stay organized by allowing
+you to group characters into <a href='/about/world/'>Worlds</a>.
+<br /><br />
+<strong>Special Thanks</strong><ul>
+<li><a href="/willowcall/">WillowCall</a> - for all her support and critical feedback. Without her Sybil would have died as quickly as it was born.</li>
+<li><a href="/watcher-mine/">Watcher-mine</a> - second only to WillowCall in submitions.</li>
+<li><a href="http://www.kongregate.com/accounts/Fenian">Fenian</a> &amp; <a href="http://www.kongregate.com/accounts/QueentakesRook">QueentakesRook</a> - for helping decide on a name.</li>
+<li><a href="http://gaeutilities.appspot.com/">gaeutilities Project</a> - for their great utilities.</li>
+<li><a href="http://www.azarask.in">Aza Raskin</a> - for porting <a href="http://www.contextfreeart.org/">ContextFree</a> to JavaScript.<br/>
+(Scripts pulled off <a href="http://azarask.in/projects/algorithm-ink/">Algorithm Ink</a> (Credits soon to follow))</li>
+</ul>
+If you have any questions, suggestions or bug reports please email me at <a href="mailto:sybil.support@gmail.com">Sybil.Support@gmail.com</a>
+
+{% endblock content %}

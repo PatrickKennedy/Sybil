@@ -1,0 +1,53 @@
+"Dream Tree" by Patrick Dietrich
+startshape scale
+
+rule scale {
+start{ s .025 y -1.3 x -1.5 }
+}
+
+rule start{
+grow{ x 1 }
+grow{ x .8 }
+grow{ x .6 }
+grow{ x .4 }
+grow{ x .2 }
+grow{  x 0 }
+
+grow{ x -1 }
+grow{ x -.8 }
+grow{ x -.6 }
+grow{ x -.4 }
+grow{ x -.2 }
+
+}
+
+rule grow {
+  right{}
+}
+
+rule grow {
+  left{}
+}
+
+rule grow .1{
+left{}
+right{}
+}
+
+rule right{
+  CIRCLE{ hue 200 sat .5 }
+  right{ y .5 r -1 b .003 s .997}
+}
+
+rule right .2{
+  grow{  }
+}
+
+rule left{
+  CIRCLE{ hue 200 sat .5 }
+  left{ y .5 r 1 b .003 s .997}
+}
+
+rule left .2{
+  grow{  }
+}

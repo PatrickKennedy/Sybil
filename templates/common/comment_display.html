@@ -1,0 +1,7 @@
+    <li class="comment">
+        <blockquote>
+            <span class="comment_body rest">{{ comment|markup("body") }}</span>
+        </blockquote>
+        <a href="{{ comment.author.url }}">{{ comment.author.nickname }}</a><br />
+        <span class="alignright"><span class="comment_date">({{ comment.updated|build_date }})</span><!--Delete--></span>
+    </li>

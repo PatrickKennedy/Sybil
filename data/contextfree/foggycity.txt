@@ -1,0 +1,60 @@
+"Foggy City" by Meico
+startshape Fog
+
+rule Fog{
+  CIRCLE{ s 10 b 1 a -.98 }
+}
+
+rule MOUSECLICK{
+ Fog{}
+ ScaledStart{}
+}
+
+rule ScaledStart{
+  BuildingA{ s 0.25 0.5 }
+}
+
+rule BuildingA 1{
+  Rect {x 0.0 y 0.5 s 1 1.0 }
+}
+
+rule BuildingA 1{
+  Rect {x 0.0 y 0.5 s 1 1.0 }
+  BuildingA{x 0.0 y 1 }
+}
+
+rule BuildingA 4{
+  Rect {x 0.0 y 0.05 s 1 0.1 }
+  BuildingA{x 0.0 y 0.1 s 0.9 0.90 }
+}
+
+rule BuildingA 2{
+  Rect {x 0.0 y 0.05 s 1 0.1 }
+  BuildingB{x 0.0 y 0.1 s 0.9 0.90 }
+}
+
+
+rule BuildingB 1{
+  Rect {x -0.375 y 0.45 s 0.25 0.9}
+  Rect {x  0.0   y 0.50 s 0.5 1}
+  Rect {x  0.375 y 0.45 s 0.25 0.9}
+}
+
+rule BuildingB 4{
+  Rect {x -0.375 y 0.45 s 0.25 0.9}
+  Rect {x  0.0   y 0.50 s 0.5 1}
+  Rect {x  0.375 y 0.45 s 0.25 0.9}
+  BuildingA{x 0.0 y 1 s 0.5 0.5 }
+}
+
+rule BuildingB 6{
+  Rect {x -0.375 y 0.45 s 0.25 0.9}
+  Rect {x  0.0   y 0.50 s 0.5 1}
+  Rect {x  0.375 y 0.45 s 0.25 0.9}
+  BuildingB{x 0.0 y 1 s 0.5 0.5 }
+}
+
+rule Rect{
+  SQUARE{b 1}
+  SQUARE{s 0.99 0.99 b 0}
+}

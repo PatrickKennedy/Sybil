@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Delete World ({{world.name}}){% endblock %}
+
+{% block content %}
+
+<strong>WARNING!</strong> You cannot undo this action!<br/>
+To delete the world, enter the name exactly as shown:<br/>
+
+<p><strong>{{ world.name }}</strong></p>
+
+<form action="/world/delete/" method="post">
+    <input type="hidden" name="key_name" value="{{ world.key_name }}" />
+    <input type="text" name="name_check" value="" />
+    <input type="submit" name="action" value="Confirm" />
+    <input type="submit" name="action" value="Cancel" />
+</form>
+
+{% endblock %}

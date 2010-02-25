@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Profile List Page {{ page }}{% endblock %}
+
+{% block head %}
+	<link rel="alternate" type="application/rss+xml" title="Latest Profiles on Sybil" href="/discover/profiles/rss/" />
+{% endblock %}
+
+{% block content %}
+
+<strong>Sort By:</strong>
+{% for sort_link in sort_links %}
+{{ sort_link }}{% if forloop.first %} | {% endif %}{% if forloop.last %}<br />{% endif %}
+{% endfor %}
+
+{% if profiles %}
+    <table class="expand">
+        <thead>
+            <tr class="center">
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Race</th>
+                <th>Author</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for profile in profiles %}
+        <tr class="center">
+            <td><a href="{{ profile.url }}">{{ profile.name }}</a></td>
+            <td>{{ profile.age }}</td>
+            <td>{{ profile.gender }}</td>
+            <td>{{ profile.race }}</td>
+            <td><a href="{{ profile.author.url }}">{{ profile.author.nickname }}</a></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <center>
+			{% if page > 1 %}<a href="{{ request.url|filter_args("page") }}page={{ page - 1 }}">&lt; Prev</a>{% else %}&lt; Prev{% endif %}
+			<span style="padding:0px 3px;">- {{ page }} -</span>
+			{% if not last_page %}<a href="{{ request.url|filter_args("page") }}page={{ page + 1 }}">Next &gt;</a>{% else %}Next &gt;{% endif %}
+    </center>
+{% else %}
+    No characters to display!<br/>
+{% endif %}
+
+{% endblock %}
+
+{% block sidebar_header %}
+        <li>
+            <h2>Profile List</h2>
+            <ul><li>This page lists all profiles chronologically or alphabetically.</li></ul>
+        </li>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Search Sybil{% endblock %}
+
+{% block description %}Sybil is a character profile manager that helps you keep your characters organized.{% endblock %}
+
+{% block content %}
+	<p><form action="/search/" method="post">
+		<input name="query" type="text" value="Search Here" /><input type="submit" value="Search!" /><br />
+		<label for="profiles">Profiles</label><input name="search_type" id="profiles" type="radio" value="profiles" />
+		<label for="worlds">Worlds</label><input name="search_type" id="worlds" type="radio" value="worlds" />
+	</form></p>
+	{% if results %}<ul>
+	{% if results.type == "profiles" %}
+		{% for profile in results.objects %}
+		{% endfor %}
+	{% elif results.type == "worlds" %}
+		% for world in results.objects %}
+		{% endfor %}
+	{% endif %}
+	</ul>{% endif %}
+{% endblock %}
+

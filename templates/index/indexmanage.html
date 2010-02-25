@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Home Sweet Home{% endblock %}
+
+{% block sidebar_header %}
+    <li>
+        <h2>Personal Page</h2>
+        <ul><li>
+        Your personal user page.
+        </ul></li>
+    </li>
+
+	<li>
+		<h2>Prefrences</h2>
+		<form action="/manage/update/" method="get">
+		<ul><li>
+			<table class="expand">
+				<tbody>
+					<tr>
+						<td>Username</td>
+						<td>
+							<input type="text" name="nickname" value="{{ udata.nickname }}" />
+						</td>
+					</tr>
+					<tr>
+						<td>Design</td>
+						<td><select name="design">
+						{% for design in designs %}
+							<option value="{{ design }}"{% if udata.design == design %} selected{% endif %}>{{ design.capitalize() }}</option>
+						{% endfor %}
+						</select></td>
+					</tr>
+					<tr>
+						<td>Theme</td>
+						<td><select name="theme">
+						{% for theme in themes %}
+							<option value="{{ theme }}"{% if udata.theme == theme %} selected{% endif %}>{{ theme.capitalize() }}</option>
+						{% endfor %}
+						</select></td>
+					</tr>
+					<tr>
+						<td><a href='/custom/theme'>Use Custom CSS?</a></td>
+						<td><input type="checkbox" name="use_custom_css" style="width: auto;"{% if udata.use_custom_css %} checked{% endif %}/></td>
+					</tr>
+					<tr>
+						<td>ContextFree Script</td>
+						<td><select name="cf_script">
+							<option value="disabled"{% if udata.cf_script == "disabled" %} selected{% endif %}>Disabled</option>
+						{% for script in cf_scripts %}
+							<option value="{{ script }}"{% if udata.cf_script == script %} selected{% endif %}>{{ script.capitalize() }}</option>
+						{% endfor %}
+						</select></td>
+					</tr>
+					<tr>
+						<td><a href='/custom/cf_script'>Use Custom CF Script?</a></td>
+						<td><input type="checkbox" name="use_custom_cf" style="width: auto;"{% if udata.use_custom_cf %} checked{% endif %}/></td>
+					</tr>
+					<tr>
+						<td>Google Analytics tracking code</td>
+						<td><input type="text" name="ga_code" value="{{ udata.ga_code }}" style="width: auto;"/></td>
+					</tr>
+				</tbody>
+			</table>
+		</li>
+		<li><input type="submit" value="Update" class="expand" /></li>
+		</ul>
+		</form>
+	</li>
+{% endblock %}
+{% block sidebar %}
+	<li>
+		<h2>World Memberships</h2>
+        <ul><li>
+	    {% include "common/world_listing.html" %}
+        </ul></li>
+    </li>
+	<li>
+		<h2><a href="/{{ udata.nickname }}/">Your Latest Profiles</a></h2>
+        <ul><li>
+	    {% include "common/profile_listing.html" %}
+        </ul></li>
+    </li>
+
+{% endblock %}
+
+{% block content %}
+    <p>
+        <strong>Welcome to Sybil's Message Center!</strong><br />
+        Below are all the messages you have yet to dismiss.
+	</p>
+    <table class="expand">
+        <thead>
+            <tr>
+                <th>Messages</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for message in messages %}
+            <tr>
+                <td>
+				{% if message.body %}
+					{{ message.body }}<br />
+				{% else %}
+					{% include 'message/'+ message.template +'.html' %}
+				{% endif %}
+					<span class="alignright"><span class="message_date">({{ message.created|build_date }})</span> <a href='/manage/dismiss/?type=message&key={{ message.key() }}'>Dismiss</a></span>
+				</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

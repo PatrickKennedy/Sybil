@@ -1,0 +1,507 @@
+/*
+    Theme Name: Blue Zinfandel Squared Modified
+    Theme URL: http://www.briangardner.com/themes/blue-zinfandel-squared-wordpress-theme.htm
+    Description: Blue Zinfandel Squaredis a modern, 2-column theme created for Wordpress.  Column moved to right in modified version.
+    Author: Brian Gardner, modified by Patrick Kennedy
+    Author URI: http://www.briangardner.com
+    Version: 1.0b
+
+    The CSS, XHTML and design is released under GPL:
+    http://www.opensource.org/licenses/gpl-license.php
+
+    Changelog:
+        v1.0 - 12.27.06
+            First Release of Blue Zinfandel Squared
+*/
+
+body {
+    margin: 0px auto 0px;
+    padding: 0px;
+    background-color: #70A0C0;
+    color: #333333;
+    font-size: 11px;
+    font-family: Verdana, Helvetica, Sans-Serif;
+}
+
+#container {
+    width: 770px;
+    /*background: #FFFFFF url(/static/content-right.gif) top center repeat-y;*/
+    background: #FFFFFF;
+    margin: 0px auto;
+    /*padding: 126px 0px 0px 0px;*/
+    overflow: hidden;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+}
+
+/************************************************
+*    Hyperlinks                                 *
+************************************************/
+
+a, a:visited{
+    color: #507AA5;
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+/************************************************
+*    Header                                     *
+************************************************/
+
+/*#header_wrap {
+    position: fixed;
+    top: 0px;
+}*/
+
+#header {
+    background: #FFFFFF !important;
+    width: 770px;
+    height: auto;
+    margin: 0px;
+    padding: 10px 0px 10px 0px;
+    text-align: center;
+    /*border-top: 8px solid #70A0C0;*/
+    border-top: 1px solid #000;
+    text-transform: uppercase;
+}
+
+/*#header.info {
+    border-top: 8px solid #70A0C0;
+}
+
+#header.alert {
+    border-top: 8px solid #8CC63F;
+}
+
+#header.error {
+    border-top: 8px solid #DB8B80;
+} */
+
+#header a {
+    font-family: Times New Roman, Helvetica, Sans-Serif;
+    font-size: 42px;
+    color: #333333;
+    text-decoration: none;
+    padding: 0px 10px 0px 10px;
+    margin: 0px;
+    text-transform: uppercase;
+}
+
+#header a:hover{
+    color: #333333;
+}
+
+/************************************************
+*    Navbar                                     *
+************************************************/
+
+#navbar {
+    background: #FFFFFF;
+    width: 770px;
+    margin: 0px;
+    padding: 10px 0px 10px 0px;
+    text-align: center;
+    border-top: 1px solid #C0C0D0;
+    border-bottom: 1px solid #C0C0D0;
+    border-left: 0px solid #fff;
+    border-right: 0px solid #fff;
+}
+
+#navbar li {
+    display: inline;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+#navbar li a {
+    font-family: Times New Roman, Helvetica, Sans-Serif;
+    font-size: 20px;
+    color: #333333;
+    padding: 0px 10px 0px 10px;
+    margin: 0px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+#navbar li a:hover {
+    color: #658DB5;
+}
+
+/************************************************
+*    Sidebar                                    *
+************************************************/
+
+#sidebar      {
+    float: left;
+    width: 220px;
+    list-style: none;
+    margin: 0px 0px 0px 0px;
+    padding: 20px 0px 20px 20px;
+    padding-bottom: 32100px;
+	margin-bottom: -32080px;
+    border-left: 1px solid #C0C0D0;
+    /*background-color: #FFD46F;*/
+}
+
+#sidebar #message{
+    color: #FFF;
+}
+
+#sidebar ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px 0px 20px 0px;
+    }
+
+#sidebar ul li {
+    margin: 0px;
+    padding: 2px 0px 2px 0px;
+}
+
+#sidebar ul li a {
+    color: #507AA5;
+    text-decoration: none;
+}
+
+#sidebar ul li a:hover {
+    color: #507AA5;
+    text-decoration: underline;
+}
+
+/************************************************
+*    Content                                    *
+************************************************/
+
+#content {
+    width: 770px;
+    margin: 0px auto 0px;
+    padding: 0px;
+}
+
+#content p{
+    padding-top: .5em;
+    padding-bottom: .5em;
+    margin: 0px;
+}
+
+#content p.original{
+    padding: 0px 0px 15px 0px;
+    margin: 0px;
+    line-height: 20px;
+}
+
+#content p.haiku {
+    line-height: 22px;
+    font-size: 14px;
+    font-family: Times New Roman, Helvetica, Sans-Serif;
+}
+
+#content p img{
+    /*float: left;*/
+    border: none;
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+
+#content h1 {
+    color: #333333;
+    font-size: 22px;
+    font-family: Times New Roman, Verdana, Arial, Sans-Serif;
+    font-weight: normal;
+    padding: 0px 0px 0px 0px;
+    margin: 0px;
+}
+
+#content h1 a  {
+    color: #333333;
+    text-decoration: none;
+}
+
+#content h1 a:hover {
+    color: #658DB5;
+    text-decoration: none;
+}
+
+#content h2 {
+    color: #333333;
+    font-size: 14px;
+    font-family: Times New Roman, Verdana, Arial, Sans-Serif;
+    font-weight: bold;
+    padding: 5px 0px 5px 0px;
+    margin: 0px;
+    border-top: 1px dotted #C0C0C0;
+    border-bottom: 1px dotted #C0C0C0;
+    }
+
+#content p ol{
+    margin: 0px;
+    padding: 0px 0px 0px 20px;
+}
+
+#content p ul{
+    margin: 0px;
+    padding: 0px 0px 0px 20px;
+}
+
+blockquote{
+    margin: 0px 0px 0px 25px;
+    padding: 0px 25px 0px 10px;
+    font-style: italic;
+    color: #666666;
+    border-left: 3px solid #B3C8DB;
+}
+
+#content blockquote p{
+    margin: 0px 0px 20px 0px;
+    padding: 0px;
+}
+
+#contentmiddle {
+    float: left;
+    width: 475px;
+    margin: 0px;
+    padding: 20px 20px 10px 20px;
+    padding-bottom: 32100px;
+	margin-bottom: -32080px;
+    /*background-color: #638F72;*/
+}
+
+#contentmiddle p img{
+    float: left;
+    border: none;
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+
+#contentmiddle ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px 0px 20px 0px;
+}
+
+#contentmiddle ul li {
+    margin: 0px;
+    padding: 5px 0px 0px 0px;
+}
+
+#contentmiddle ul li a {
+    color: #507AA5;
+    text-decoration: none;
+}
+
+#contentmiddle ul li a:hover {
+    color: #507AA5;
+    text-decoration: underline;
+}
+
+/************************************************
+*    Comments                                   *
+************************************************/
+
+#comments li {
+    padding-bottom: 1em;
+}
+
+#comments blockquote {
+    margin: 0px;
+    padding: 0px 25px 0px 10px;
+    color: #666666;
+    border-left: 3px solid #B3C8DB;
+    font-style: normal;
+}
+
+#comments blockquote p {
+    margin: 1em 0px 1em 0px;
+    display: block;
+    font-style: italic;
+}
+
+/************************************************
+*    Images                                     *
+************************************************/
+p img {
+    padding: 0;
+    max-width: 100%;
+}
+
+/*    Using 'class="alignright"' on an image will (who would've
+    thought?!) align the image to the right. And using 'class="centered',
+    will of course center the image. This is much better than using
+    align="center", being much more futureproof (and valid) */
+
+img.centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+img.alignright {
+    padding: 4px;
+    margin: 0 0 2px 7px;
+    display: inline;
+}
+
+img.alignleft {
+    padding: 4px;
+    margin: 0 7px 2px 0;
+    display: inline;
+}
+
+.alignright {
+    float: right;
+}
+
+.alignleft {
+    float: left
+}
+
+/************************************************
+*    Footer                                     *
+************************************************/
+
+#footer {
+    background: #FFFFFF;
+    position: relative;
+    width: 770px;
+    height: auto;
+    margin: 0px auto 0px;
+    padding: 10px 0px 10px 0px;
+    border-top: 1px solid #C0C0D0;
+    border-bottom: 1px solid #000;
+    text-align: center;
+    font-size: 9px;
+}
+
+/************************************************
+*    Search Form                                *
+************************************************/
+
+#searchdiv {
+    margin: 0px;
+    padding: 0px;
+}
+
+#search form {
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+#search form input {
+    background: #FFFFFF;
+    color: #888888;
+    font-size: 11px;
+    font-family: Verdana, Helvetica, Sans-Serif;
+    padding: 2px;
+    margin: 7px 0px 0px 0px;
+    border: 1px solid #C0C0C0;
+}
+
+input, textarea, select {
+    background: #FFFFFF;
+    color: #555;
+    font-size: 12px;
+    font-family: Verdana, Helvetica, Sans-Serif;
+    border: 1px solid #C0C0E0;
+}
+
+/************************************************
+*    Humanized Message Box                      *
+************************************************/
+
+.humanized_msg {
+    position: absolute;
+    left: 25%;
+    width: 50%;
+    color: white;
+    background-color: #8CC63F;
+    font-size: 36pt;
+    text-align: center;
+}
+
+.humanized_msg .round {
+    border-left: solid 2px white;
+    border-right: solid 2px white;
+    font-size: 1px;
+    height: 2px;
+}
+
+.humanized_msg p {
+    padding: .3em;
+    display: inline;
+}
+
+/************************************************
+*    Status Colors                              *
+************************************************/
+.info {
+    background-color: #70A0C0;
+}
+
+.alert {
+    background-color: #8CC63F;
+}
+
+.error {
+    background-color: #DB8B80;
+}
+
+/************************************************
+*    Tables                                     *
+************************************************/
+
+table{
+    border: 0;
+    border-collapse: collapse;
+    margin: 5px 0px 5px 0px;
+    font-size: 1.1em;
+}
+
+table.expand {
+    width: 100%;
+}
+
+table .center * {
+    text-align: center;
+}
+
+table input, table textarea, table select {
+    width: 100%;
+}
+
+table tr.info *, table tr.alert *, table tr.error * {
+    background-color: inherit;
+}
+
+table th {
+    background: #70A0C0;
+    color: #fff;
+    font-weight: bold;
+    padding: 2px 6px;
+    text-align: left;
+    border-right: 1px solid #fff;
+    line-height: 1.2em;
+}
+
+table td {
+    padding: 6px 6px;
+    border: 0;
+    border-bottom: 1px solid #C0C0E0;
+    vertical-align: middle;
+}
+
+table_disabled tr:hover td {
+    background: #bcd4ec;
+}
+
+/************************************************
+*    ReST                                       *
+************************************************/
+
+.rest p{
+    text-align: justify;
+}

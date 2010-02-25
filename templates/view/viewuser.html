@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}{{ adata.nickname }}'s User Page{% endblock %}
+
+{% block description %}
+	{{ adata.nickname }}'s public information page - Check out {{ adata.nickname }}'s activity on Sybil.
+{% endblock %}
+
+{% block head %}
+	<link rel="alternate" type="application/rss+xml" title="{{ adata.nickname }}'s Latest Profiles" href="{{ adata.url }}rss/" />
+{% endblock %}
+
+{% block content %}
+
+<strong>Sort By:</strong> <a href="{{ request.path }}">Creation Date</a> | <a href="{{ request.path }}?order=alpha">Name</a>
+{% include 'common/profile_listing.html' %}
+
+{% endblock %}
+
+{% block sidebar_header %}
+        <li>
+            <h2>{{ adata.nickname }}'s Statistics</h2>
+            <ul>
+				<li>{{ adata.nickname }} has created</li>
+				<li>&bull; {{ profile_count }}{% if page_admin %}<a href="/update/count/user_profiles/{{ adata.nickname }}/?referer={{ url }}">&#181;</a>{% endif %} profiles</li>
+				<li>&bull; {{ world_count }}{% if page_admin %}<a href="/update/count/user_worlds/{{ adata.nickname }}/?referer={{ url }}">&#181;</a>{% endif %} worlds</li>
+				<li>&bull; {{ total_word_count }}{% if page_admin %}<a href="/update/count/user_words/{{ adata.nickname }}/?referer={{ url }}">&#181;</a>{% endif %} total words</li>
+			</ul>
+        </li>
+{% endblock %}
+{% block sidebar %}
+	<li>
+		<h2>World Memberships</h2>
+        <ul><li>
+	    {% include "common/world_listing.html" %}
+        </ul></li>
+    </li>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "feed/base.xml" %}
+
+{% block channel_info %}
+	<title>Latest Worlds on Sybil</title>
+	<atom:link href="{{ host_url }}/discover/worlds/rss/" rel="self" type="application/rss+xml" />
+	<link>{{ host_url }}/discover/worlds/</link>
+	<description>Sybil is a centralized character profile repository.</description>
+{% endblock %}
+
+{% block items -%}
+{% if world_data.worlds %}
+	{% for world in world_data.worlds -%}
+	<item>
+		<title>{{ world.name }}</title>
+		<link>{{ host_url }}{{ world.url }}</link>
+		<guid>{{ host_url }}{{ world.url }}</guid>
+		<description></description>
+		<content:encoded><![CDATA[
+			<b>Name:</b> {{ world.name|escape }}<br />
+			<br/>
+			<p>
+				<b>About</b>
+				{{ world|markup("about") }}
+			</p>
+			]]></content:encoded>
+		<pubDate>{{ world.created|date('D, d M Y H:i:s') }} -0800 </pubDate>
+		<dc:creator>{{ world.author.nickname }}</dc:creator>
+	</item>
+	{% endfor %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,41 @@
+Aura - "Things To Say" by Momo
+startshape START
+
+rule START {
+    START__ { r 90 x -1.2 }
+    START__ { r -90 x 1 }
+}
+
+rule START__ {
+    START_ { r 90 s .008}
+    START_ { y -100 r -90 s.008}
+}
+rule START_ {
+    ARM { }
+    ARM { flip 180 }
+}
+
+rule ARM {
+    SHAPE { }
+    ARM { y 0.5 s 0.999 }
+}
+rule ARM 0.005 {ARM_ { }}
+
+rule ARM_  {
+    SHAPE { }
+    ARM_ { y 0.5 s 0.999 r 45 }
+}
+rule ARM_  0.005 {ARM { }}
+
+rule SHAPE {
+    SQUARE { x -2 hue 80 b 1 sat 1}
+    SQUARE { hue 65 b 1 sat 1 }
+    SQUARE { x 2 hue 80 b 1 sat 1 }
+    SHAPE { x 5 }
+}
+
+rule SHAPE {
+    CIRCLE { s 2 alpha -0.7 hue 80 b 1 sat 1}
+    SHAPE { x 5 }
+}
+rule SHAPE 0.5 { }

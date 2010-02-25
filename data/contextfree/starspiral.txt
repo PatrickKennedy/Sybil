@@ -1,0 +1,18 @@
+<a href="http://www.azarask.in/projects/algorithm-ink/#77d829c8" style="color: black;">"Star Spiral"</a> by Yon
+startshape scale
+
+rule scale{
+  shape{s .4 y -1 x 2}
+}
+
+rule shape{
+ TRIANGLE{ a -.7 }
+ TRIANGLE{ s -1 a -.7 }
+ shape{ y 5 r 50 s .98}
+}
+
+rule shape{
+ TRIANGLE{ a -.7 }
+ TRIANGLE{ s -1 a -.7 }
+ shape{ y 5 r 50 s .99}
+}

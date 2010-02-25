@@ -1,0 +1,23 @@
+{#
+
+Common variables:
+user - The current users.User
+
+Custom Namespace variables:
+comment_data.host - Data to be used for the comment's host property.
+comment_data.host_type - Define what type of comment this is.
+
+Included templates require:
+comment_data.comments - A list of Comment, or CommentBase based, objects.
+
+#}
+
+{% include 'common/comment_listing.html' %}
+{% if user -%}
+<ul><li><form class="comments" action="/create/comment/" method="post">
+	<input type="hidden" name="host" value="{{ comment_data['host'] }}" />
+	<input type="hidden" name="type" value="{{ comment_data['host_type'] }}" />
+	<textarea name="body" rows="6" style="width:100%;"></textarea>
+	<input type="submit" value="Comment" />
+</form></li></ul>
+{% endif %}

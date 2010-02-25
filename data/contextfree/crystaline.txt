@@ -1,0 +1,29 @@
+<a href="http://www.azarask.in/projects/algorithm-ink/#a5328bff" style="color: black;">"Crystaline"</a> by DC
+startshape shape
+
+
+rule shape { 
+ lines{}
+ shape {x 0.75 y .25 s .5 r 5} 
+ shape {flip 45 s .75}
+}
+
+rule shape {
+ shape { flip 45 }
+ shape { flip 90 }
+}
+
+rule shape 0.001 {}
+
+rule shape 0.1 {
+ shape { s 2 }
+}
+
+rule lines {
+ line{}
+ line {s .5 x .5 flip 45}
+}
+
+rule line{
+ SQUARE{ s 1 .01}
+}

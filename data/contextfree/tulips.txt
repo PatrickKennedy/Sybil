@@ -1,0 +1,88 @@
+<a href="http://www.azarask.in/projects/algorithm-ink/#e37eb62a" style="color: black;">"Tulips"</a> by lunarbunny
+startshape start 
+
+rule start {
+  scalestart { x -1.5}
+}
+
+rule MOUSECLICK {
+ stalk1{ s 0.3 }
+}
+rule MOUSECLICK {
+ stalk1{ s 0.25 }
+}
+rule MOUSECLICK {
+ stalk1{ s 0.2 }
+}
+
+rule scalestart {
+  shapestart { s 0.3 }
+}
+
+rule shapestart {
+  stalk1 { y -3 x -0.5 s 0.6 r 5 }
+  stalk1 { y -3 x s 0.7}
+
+}
+
+rule bud {
+ drawbud {}
+ bud { r 1 s 0.99 1 }  
+}
+
+rule bud 0.2 {
+ bud { r -0.7 }  
+}
+
+rule bud 0.2 {
+ bud { x 0.01 }  
+}
+
+rule drawbud {
+ budtrail { alpha -0.96 }
+ CIRCLE { s .7 hue 300 sat 2 b .22 } 
+}
+
+rule budtrail {
+ CIRCLE { s .75 hue 300 sat 2 b .1 } 
+}
+
+rule leaf {
+ CIRCLE { r 45 x -0.3 y 0.3 s .5 1 hue 100 sat 1 b .25 } 
+}
+
+rule stalk1 {
+  CIRCLE { s 0.2 hue 100 b 0.2 sat 0.5 alpha -0.54  }
+  stalk1 { y +0.01 s 0.9999 r 0.1 }
+}
+
+rule stalk1 0.003 {
+  stalk1 { flip 90 }
+}
+
+rule stalk1 0.02 {
+  leaf {}
+  stalk1 { }
+}
+
+rule stalk1 0.01 {
+  leaf { flip 90 }
+  stalk1 { }
+}
+
+rule stalk1 0.01 {
+  stalk2 { }
+}
+
+rule stalk2 {
+  CIRCLE { s 0.2 hue 100 b 0.2 sat 0.5 alpha -0.54 }
+  stalk2 { y +0.01 s 0.9999 r 0.1 }
+}
+
+rule stalk2 0.006 {
+  stalk2{ flip 90 }
+}
+
+rule stalk2 0.003 {
+  bud { s 2 }
+}

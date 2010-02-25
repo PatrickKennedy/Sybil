@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Read Only Mode{% endblock %}
+
+{% block content %}
+<p>
+Sybil is currently in Read Only mode. This is likely because of a scheduled
+App Engine maintenance. For more information please visit
+<a href="http://code.google.com/status/appengine">App Engine's System Status</a> page.
+</p>
+
+{% if return_url %}
+<p>
+There is a posibility something you were doing might be lost. The following URL
+has as much retreivable data hard coded into it. This means you can safely try
+going back in your browser to see if it saved anything. If not, use this:<br/>
+<a href="{{ return_url }}">{{ return_url}}</a>
+</p>
+{% endif %}
+{% endblock %}

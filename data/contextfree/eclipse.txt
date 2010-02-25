@@ -1,0 +1,14 @@
+<a href="http://www.azarask.in/projects/algorithm-ink/#e37eb62a" style="color: black;">"Eclipse"</a> by Joe DiPilato
+startshape start
+rule start{x{s 1.5 r 180}}
+rule x{s{s 1.6}s{s 1.6 flip 90}}
+rule s{a{y -.5}}
+rule a{SQUARE{s .01 b 1}a{x .002 r .25}b{b 1}}
+rule a .0005{}
+rule b{SQUARE{s .01}b{y -.006 a -.05}}
+rule b .05{}
+rule a .002{a{}c{b 1 s .15 a -.5 y -.03}}
+rule c{d{}d{flip 90}e{s .5}}
+rule d{CIRCLE{}d{s .9 r 1 a -.1 x .1}}
+rule e{CIRCLE{}e{s .99 a -.05 y -.1}}
+rule c{e{s .5}}

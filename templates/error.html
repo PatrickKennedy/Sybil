@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="python-error">
+    <p>
+    Python error:
+        <pre><code>{{ self.request.uri }}</code></pre>
+        <pre><code>{{ args }}</code></pre>
+        <pre><code>{{ message }}</code></pre>
+    </p>
+</div>
+{% endblock %}

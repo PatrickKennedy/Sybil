@@ -1,0 +1,27 @@
+Update UserData properties so they always return the same object.
+
+
+Dan was just an on vacation in <friend's Asian home here> when his life got flip turned upside down by a single bee. Dan had just reached the front of a line for a theme park ride and was talking to the ride attendant about some of their policies. It was then a bee decided to get into his bonnet (his glove, actually) which frightened Dan to the point where he threw off his gloves and ran down the hill the ride was located on.
+
+Unfortunately for the fear blinded Dan, the theme park saddled a shallow gorge which he ran straight into. The first time he fell he broke his right leg and made it worse hobbling around a short while. Dan decided that if he were going to fall into the gorge he'd much rather not have a broken leg so he tried again a few feet over, this time falling off an ironically sheerer drop into a particular soggy portion of the river bank. This time he only sprained something.
+
+For some reason he thought it necessary to find the name of the river, while doing so he discovered a ridge which he could walk along half way between the cliff and the river (sadly I don't remember the name). When he found the name hovering above the river inset part way into the cave it flowed from he turned around and just started walking, hoping he'd find a dip in the cliff where he could climb out.
+
+It must've been late in the evening because by the time he was nearing the other side, a mere mile long stretch, it was twilight. He then found the cliff had gradually sloped down to just above a man's height. Dan found a rock pile lit by a lamp which he used to peer over low brick wall on the lip of the cliff.
+
+He saw a plump, grizzly fellow sitting, back to the gorge, at a computer.  Dan signaled the man who helped Dan back onto high ground. And then proceeded to hold Dan at rifle point along with another, gruff but fit man who'd moved out from behind a nearby rock formation who held a revolver.
+
+Dan moved to surrender, bending first to one knee, but pulling out his on pistol, shooting the newcomer in the chest and temple. The first man took an involuntary step back, bumping into the low wall. He grab for a dirty white ruck sack and jumped down the low cliff.
+
+Dan
+
+It never occurred to Dan to question why the gorge was there, unblocked, at all.
+
+sorted_list.append(
+	create_score(
+		bins[key],
+		lambda item: item[0],
+		lambda item: item[1]
+	),
+	bins[key][0][2]
+)

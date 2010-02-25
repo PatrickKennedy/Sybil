@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}New Profile{% endblock %}
+
+{% block content %}
+    <form action="/create/profile/" method='post'>
+
+    <table class="expand">
+        <thead>
+            <tr class="center">
+                <th>Name*</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Race</th>
+                <th>Height</th>
+                <th>Weight</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input name="name" value="{{ name }}" size=14 /></td>
+                <td><input name="age" value="{{ age }}" size=4 /></td>
+                <td>
+                    <select name="gender" />
+                        <option value=""></option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Neither">Neither</option>
+                    </select>
+                </td>
+                <td><input name="race" value="{{ race }}" size=8 /></td>
+                <td><input name="height" value="{{ height }}" size=7 /></td>
+                <td><input name="weight" value="{{ weight }}" size=7 /></td>
+            </tr>
+            <tr><td colspan=6>
+                <div class="inline_header"><h2>Appearance</h2></div>
+                <div class="inline_body"><textarea name="apperence" rows="10" cols="40">{{ apperence }}</textarea></div>
+            </td></tr>
+            <tr><td colspan=6>
+                <div class="inline_header"><h2>Background</h2></div>
+                <div class="inline_body"><textarea name="background" rows="10" cols="40">{{ background }}</textarea></div>
+            </td></tr>
+            <tr><td colspan=6>
+                <div class="inline_header"><h2>Extra Info</h2></div>
+                <div class="inline_body"><textarea name="extra_info" rows="10" cols="40">{{ extra_info }}</textarea></div>
+            </td></tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Submit" />
+    <br />
+    <br />* indicates a required field
+
+{% endblock %}
+
+{% block sidebar_header %}
+        <li>
+            <h2>New Character</h2>
+            <ul>
+                <li>Here you can create a new character profile.</li>
+                <li>Markupable fields:  <i>Appearance</i>, <i>Background</i>, <i>Extra Info</i>, <i>Links</i></li>
+            </ul>
+        </li>
+
+        <li>
+            <h2>Options</h2>
+            <ul>
+                <li>Private profiles cannot be seen by anyone but you.</li>
+                <li><input type="radio" name="public" value="True" checked /> Public</li>
+                <li><input type="radio" name="public" value="False" /> Private</li>
+            </ul>
+            <ul>
+                <li>Sybil will render the profile in the selected markup langauge.</li>
+                <li><input type="radio" name="markup" value="PlainText" /> Plain Text</li>
+                <li><input type="radio" name="markup" value="Textile" checked /> <a href="http://hobix.com/textile/">Textile</a></li>
+                <li><input type="radio" name="markup" value="ReST" /> <a href="http://docutils.sourceforge.net/docs/user/rst/quickref.html">reStructuredText</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <h2>Links</h2>
+            <ul>
+                <li>Content here is displayed in the sidebar.</li>
+                <li><textarea name="links" rows="8" cols="40"></textarea>
+            </ul>
+        </li>
+
+        <li>
+            <h2>Common Elements</h2>
+            <ul>
+                <li>Content here will be appended to the fields that accept markup.</li>
+                {#
+                <li><strong>Example (Textile)</strong></li>
+                <li>In the input field: <pre>"Python":python_link is great!</pre></li>
+                <li>In the field below: <pre>[python_link]http://www.python.org</pre></li>
+                #}
+                <li><textarea name='common' rows="8" cols="40"></textarea>
+            </ul>
+        </li>
+    </form>
+{% endblock %}

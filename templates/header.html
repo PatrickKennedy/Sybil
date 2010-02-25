@@ -1,0 +1,16 @@
+    <div id="header">
+        <a href="/">Sybil</a><br />
+        Welcome, {% if user %}{{ user.email() }}{% else %}Please <strong>Embark</strong> on your journey!<!--Error('Missing Email Address')-->{% endif %}
+    </div><!-- end header -->
+
+    <ul id="navbar">{% if user %}
+        <li><a href="/create/">Create</a></li>&bull;
+        <li><a href="/discover/">Discover</a></li>&bull;
+        <li><a href="/manage/">Manage {% if msg_count %}({{ msg_count }}){% endif %}</a></li>&bull;
+        <li><a href="{{ logout_url }}">Retire{# Depart #}{# Log Out #}</a></li>&bull;
+    {% else %}
+        <li><a href="/discover/">Discover{# List #}</a></li>&bull;
+        <li><a href="{{ login_url }}"><strong>Embark{# Log In #}</strong></a></li>&bull;
+    {% endif %}
+        <li><a href="/about/">About</a></li>
+    </ul><!-- end navbar -->

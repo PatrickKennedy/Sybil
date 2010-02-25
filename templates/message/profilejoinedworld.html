@@ -1,0 +1,8 @@
+{#
+Generates a user joined message from a WorldMember object.
+This is a Permanent message
+#}
+
+<span class="message_header"><a href="{{ author.url }}">{{ author.nickname }}</a>
+added <a href="{{ profile.url }}">{{ profile.name }}</a>
+to <a href="{{ world.url }}">{{ world.name }}</a></span>
