@@ -47,10 +47,11 @@ def is_dev():
 
 	"""
 	return os.environ['SERVER_SOFTWARE'].startswith('Dev')
-	
+
 def word_count(*strs):
 	count = 0
 	for s in strs:
+		# We add 1 because "the lazy dog" has 2 spaces but 3 words.
 		count += s.count(' ') + 1
 		count += s.count('\n\n') if '\n\n' in s else s.count('\n')
 	return count

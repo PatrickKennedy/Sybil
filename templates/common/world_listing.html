@@ -5,7 +5,7 @@ if `page_admin` is True and a `profile` is passed it will generate a "X" leave l
 if `page_admin` and `list_leave` are True a "Leave" link will be displayed
 #}
 
-{% if world_data.worlds %}
+{% if world_data.results %}
 		<table class="expand">
 			{% if not world_data.hide_header %}<thead>
 				<tr class="center">
@@ -19,7 +19,7 @@ if `page_admin` and `list_leave` are True a "Leave" link will be displayed
 				</tr>
 			</thead>{% endif %}
 			<tbody>
-			{% for world in world_data.worlds %}
+			{% for world in world_data.results %}
 				<tr class="center">
 					<td><a href="{{ world.url }}">{{ world.name }}</a></td>
 					{% if world_data.list_author %}<td><a href="{{ world.author.url }}">{{ world.author.nickname }}</a></td>{% endif %}
@@ -31,6 +31,13 @@ if `page_admin` and `list_leave` are True a "Leave" link will be displayed
 			{% endfor %}
 			</tbody>
 		</table>
+	{% if profile_data.list_pages %}
+		<center>
+			{% if world_data.page != 1 %}<a href="{{ request.url|filter_args("worlds_page,worlds_bookmark") }}worlds_page={{ world_data.page - 1 }}{% if world_data.prev %}&worlds_bookmark={{ world_data.prev }}{% endif %}">&lt; Prev</a>{% else %}&lt; Prev{% endif %}
+			<span style="padding:0px 3px;">- {{ world_data.page }} -</span>
+			{% if world_data.next %}<a href="{{ request.url|filter_args("worlds_page,worlds_bookmark") }}worlds_page={{ world_data.page + 1 }}&worlds_bookmark'{{ world_data.next }}">Next &gt;</a>{% else %}Next &gt;{% endif %}
+		</center>
+	{% endif %}
 {% elif page_admin %}
 	Need a world to join? <a href="/create/world">Make one!</a>
 {% elif profile %}

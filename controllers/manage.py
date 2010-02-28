@@ -39,24 +39,24 @@ import	wsgiref.handlers
 
 from	urllib	import quote_plus
 
-from	google.appengine.api		import datastore
+from	google.appengine.api		import datastore, memcache
 from	google.appengine.ext		import db, webapp
 
-from	common			import framework, const, counter, utils
+from	common			import const, counter, framework, memopad, utils
 from	common.stores	import UserData, Profile, WorldMember, Message
 
 class Index(framework.BaseRequestHandler):
 	def get(self):
 		delinate	= self.udata.nickname
 		refresh_cache = self.request.get('refresh_cache', False) is not False
-		sterile_url = framework.sterilize_url(self.url)
-		
+		sterile_url = memopad.sterilize_url(self.url)
+
 		self.context['page_admin'] = True
 		self.context['designs'] = const.AVAILABLE_DESIGNS
 		self.context['themes'] = const.AVAILABLE_THEMES
 		self.context['cf_scripts'] = const.CF_SCRIPTS
 
-		@framework.memoize(sterile_url, 'profile_listing', delinate, refresh=refresh_cache)
+		@memopad.learn(sterile_url, 'profile_listing', delinate, skip=refresh_cache)
 		def __fetch_latest_profiles():
 			query = Profile.all()
 			query.filter('author =', self.udata)
@@ -64,13 +64,13 @@ class Index(framework.BaseRequestHandler):
 			return query.fetch(5)
 
 		# TODO: Reimplement the messaging system. The new one will be cache compatable.
-		@framework.memoize(sterile_url, 'message_listing', delinate, refresh=refresh_cache)
+		@memopad.learn(sterile_url, 'message_listing', delinate, skip=refresh_cache)
 		def __fetch_messages():
 			q = self.udata.message_recipient_set
 			q.order('-created')
 			return q.fetch(25)
 
-		@framework.memoize(sterile_url, 'world_listing', delinate, refresh=refresh_cache)
+		@memopad.learn(sterile_url, 'world_listing', delinate, skip=refresh_cache)
 		def __fetch_world_memberships():
 			q = self.udata.worldmember_set
 			#q = WorldMember.all()
@@ -92,6 +92,16 @@ class Index(framework.BaseRequestHandler):
 
 		self.render(['index', 'indexManage'])
 
+class SearchIndexing(framework.BaseRequestHandler):
+	def get(self, type):
+		for profile in self.udata.profile_set:
+			profile.enqueue_indexing(url='/tasks/index/')
+		for world in self.udata.world_set:
+			world.enqueue_indexing(url='/tasks/index/')
+		self.flash.msg = 'All Profiles and Worlds queued for indexing.'
+		self.redirect('/manage/')
+		return
+
 class Update(framework.BaseRequestHandler):
 	def get(self):
 
@@ -99,11 +109,16 @@ class Update(framework.BaseRequestHandler):
 			get		= self.request.get
 			design	= get('design')
 			theme	= get('theme')
-			use_custom_css 	= get('use_custom_css') == 'on'
+			use_custom_css 	= get('use_custom_css')
+			if use_custom_css is not None:
+				use_custom_css = use_custom_css == 'on'
 			cf_script		= get('cf_script')
-			use_custom_cf 	= get('use_custom_cf') == 'on'
+			use_custom_cf 	= get('use_custom_cf')
+			if use_custom_cf is not None:
+				use_custom_cf = use_custom_cf == 'on'
 			ga_code 	= get('ga_code')
 			nickname	= get('nickname')
+			wave_address   = get('wave_address')
 			udata		= self.udata
 			changes 	= []
 
@@ -115,10 +130,10 @@ class Update(framework.BaseRequestHandler):
 				udata.theme = theme
 
 			if design is not None and udata.design != design:
-				changes.append('design: %s -> %s' % (udata.design, design))
+				changes.append('Design: %s -> %s' % (udata.design, design))
 				udata.design = design
 
-			if udata.use_custom_css != use_custom_css:
+			if use_custom_css is not None and udata.use_custom_css != use_custom_css:
 				changes.append('Use Custom CSS: %s -> %s' % (not use_custom_css, use_custom_css))
 				udata.use_custom_css = use_custom_css
 
@@ -126,7 +141,7 @@ class Update(framework.BaseRequestHandler):
 				changes.append('CF Script: %s -> %s' % (udata.cf_script, cf_script))
 				udata.cf_script = cf_script
 
-			if udata.use_custom_cf != use_custom_cf:
+			if use_custom_cf is not None and udata.use_custom_cf != use_custom_cf:
 				changes.append('Use Custom CF: %s -> %s' % (not use_custom_cf, use_custom_cf))
 				udata.use_custom_cf = use_custom_cf
 
@@ -139,8 +154,17 @@ class Update(framework.BaseRequestHandler):
 				nickname = re.sub('[^a-zA-Z0-9\.\-_]*', '', nickname)
 				unix_nick = nickname.lower()
 				changes.append('Nickname: %s -> %s' % (udata.nickname, nickname))
+				memcache.delete("nickpointer:%s" % udata.unix_nick)
+				memcache.set("nickpointer:%s" % unix_nick, udata)
 				udata.nickname = nickname
 				udata.unix_nick = unix_nick
+
+			if wave_address is not None and udata.wave_address != wave_address:
+				changes.append('Wave Address: %s -> %s' % (udata.wave_address, wave_address))
+				#TODO: Delete wave_address pointers similarly to nickpointers
+				#memcache.delete('wavepointer:%s' % udata.wave_address)
+				#memcache.set('wavepointer:%s' % wave_address, udata)
+				udata.wave_address = wave_address
 
 			if changes:
 				udata.put()
@@ -154,7 +178,7 @@ class Update(framework.BaseRequestHandler):
 class UpdateSingle(framework.BaseRequestHandler):
 	def get(self, attr):
 		unix_attr = attr.lower()
-		value = self.request.get(attr, None)
+		value = self.request.get("value", None)
 		next = self.request.get('next')
 		udata = UserData.load()
 
@@ -198,21 +222,11 @@ class Dismiss(framework.BaseRequestHandler):
 
 		message.delete()
 
-
-# Map URLs to our RequestHandler classes above
-_URLS = [
+URLS = [
 	('^/manage/?', Index),
+	('^/manage/index/([^\/]+)/?', SearchIndexing),
 	('^/manage/update/([^\/]+)/?', UpdateSingle),
 	('^/manage/update/?', Update),
 	('^/manage/edit/?', Edit),
 	('^/manage/dismiss/?', Dismiss),
 ]
-
-def main():
-	if not random.randint(0, 25):
-		framework.profile_main(_URLS)
-	else:
-		framework.real_main(_URLS)
-
-if __name__ == '__main__':
-	main()

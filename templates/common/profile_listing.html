@@ -1,7 +1,7 @@
 {#
 
 #}
-	{% if profile_data.profiles %}
+	{% if profile_data.results %}
 		<table class="expand">
 			{% if not profile_data.hide_header %}<thead>
 				<tr class="center">
@@ -25,7 +25,7 @@
 				</tr>
 			</thead>{% endif %}
 			<tbody>
-			{% for profile in profile_data.profiles %}
+			{% for profile in profile_data.results %}
 				<tr class="center">
 					<td><a href="{{ profile.url }}">{{ profile.name }}</a></td>
 				{% if profile_data.partial_listing %}
@@ -50,9 +50,9 @@
 		</table>
 	{% if profile_data.list_pages %}
 		<center>
-			{% if profile_data.page != 1 %}<a href="{{ request.url|filter_args("profiles_page") }}profiles_page={{ profile_data.page - 1 }}">&lt; Prev</a>{% else %}&lt; Prev{% endif %}
+			{% if profile_data.page != 1 %}<a href="{{ request.url|filter_args("profiles_page,profiles_bookmark") }}profiles_page={{ profile_data.page - 1 }}{% if profile_data.prev %}&profiles_bookmark={{ profile_data.prev }}{% endif %}">&lt; Prev</a>{% else %}&lt; Prev{% endif %}
 			<span style="padding:0px 3px;">- {{ profile_data.page }} -</span>
-			{% if not profile_data.last_page %}<a href="{{ request.url|filter_args("profiles_page") }}profiles_page={{ profile_data.page + 1 }}">Next &gt;</a>{% else %}Next &gt;{% endif %}
+			{% if profile_data.next %}<a href="{{ request.url|filter_args("profiles_page,profiles_bookmark") }}profiles_page={{ profile_data.page + 1 }}&profiles_bookmark={{ profile_data.next }}">Next &gt;</a>{% else %}Next &gt;{% endif %}
 		</center>
 	{% endif %}
 	{% else %}

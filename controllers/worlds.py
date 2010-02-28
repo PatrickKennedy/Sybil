@@ -44,7 +44,7 @@ from	google.appengine.api		import users
 from	google.appengine.ext		import db, webapp
 from	google.appengine.ext.db		import Query
 
-from	common			import const, counter, framework, stores, utils
+from	common			import const, counter, framework, memopad, stores, utils
 from	common.stores	import Profile, World, WorldConnection, WorldMember
 from	common.stores	import Comment, UserData
 
@@ -81,7 +81,7 @@ class Index(framework.BaseRequestHandler):
 				self.render(['delete', 'deleteWorld'])
 			return
 
-		sterile_url = framework.sterilize_url(self.url)
+		sterile_url = memopad.sterilize_url(self.url)
 
 		def __build_profile_data():
 			page = self.request.get_range('profiles_page', min_value=1, default=1)
@@ -101,14 +101,14 @@ class Index(framework.BaseRequestHandler):
 			if len(profiles) > items_per_page:
 					last_page = False
 					profiles.pop()
-					
-			@framework.memoize(sterile_url, 'profile_listing', refresh=refresh_cache)
+
+			@memopad.learn(sterile_url, 'profile_listing', skip=refresh_cache)
 			def fetch():
 				return profiles
 
 			return {'profiles': fetch(), 'page':page, 'last_page': last_page}
 
-		@framework.memoize(sterile_url, 'member_listing', refresh=refresh_cache)
+		@memopad.learn(sterile_url, 'member_listing', skip=refresh_cache)
 		def __fetch_member_data():
 			return world.worldmember_set.fetch(25)
 
@@ -128,8 +128,8 @@ class Index(framework.BaseRequestHandler):
 			if len(comments) > items_per_page:
 				last_page = False
 				comments.pop()
-				
-			@framework.memoize(sterile_url, 'comment_listing', refresh=refresh_cache)	
+
+			@memopad.learn(sterile_url, 'comment_listing', skip=refresh_cache)
 			def fetch():
 				return comments
 
@@ -254,9 +254,15 @@ class Edit(framework.BaseRequestHandler):
 			logging.info('User (%s) has added World (%s) Member (%s)' % (
 				self.user.email(), world.name, udata.user.email()))
 
-			framework.unmemoize('/manage/', 'world_listing', udata.nickname)
-			framework.unmemoize(member.user.url, 'world_listing')
-			framework.unmemoize(world.url, 'member_listing')
+			#TODO: Transition from memopad.forget's to versioning
+			# Update the member's cache
+			#memcache.incr(member.user.key_name +'_world_listing', 1, 'cache_version', 0)
+			# Update the world's member cache
+			#memcache.incr(world.key_name +'_member_listing', 1, 'cache_version', 0)
+
+			memopad.forget('/manage/', 'world_listing', udata.nickname)
+			memopad.forget(member.user.url, 'world_listing')
+			memopad.forget(world.url, 'member_listing')
 			return True
 
 		return False
@@ -281,7 +287,10 @@ class Edit(framework.BaseRequestHandler):
 		member = world.worldmember_set.filter('user =', udata).get()
 		if member:
 			for conn in world.worldconnection_set.filter('user = ', udata):
-				framework.unmemoize(conn.profile.url, 'world_listing')
+				#TODO: Transition from memopad.forget's to versioning
+				# Update the profile's cache
+				#memcache.incr(conn.profile.key_name +'_world_listing', 1, 'cache_version', 0)
+				memopad.forget(conn.profile.url, 'world_listing')
 				conn.delete()
 
 			logging.info('User (%s) has removed World (%s) Member (%s)' % (
@@ -292,10 +301,19 @@ class Edit(framework.BaseRequestHandler):
 			)
 			db.put(messages)
 
-			framework.unmemoize(world.url, 'profile_listing')
-			framework.unmemoize('/manage/', 'world_listing', member.user.nickname)
-			framework.unmemoize(member.user.url, 'member_listing')
-			framework.unmemoize(world.url, 'member_listing')
+			#TODO: Transition from memopad.forget's to versioning
+			# Update the member's cache
+			#memcache.incr(member.user.key_name +'_world_listing', 1, 'cache_version', 0)
+			# Update the world's member cache
+			#memcache.incr(world.key_name +'_member_listing', 1, 'cache_version', 0)
+			# Update the world's profile cache
+			#memcache.incr(world.key_name +'_profile_listing', 1, 'cache_version', 0)
+
+
+			memopad.forget(world.url, 'profile_listing')
+			memopad.forget('/manage/', 'world_listing', member.user.nickname)
+			memopad.forget(member.user.url, 'member_listing')
+			memopad.forget(world.url, 'member_listing')
 			member.delete()
 			counter.Counter('%sWorldMembers' % world.key_name, 1).increment(-1)
 			return True
@@ -326,13 +344,13 @@ class Delete(framework.BaseRequestHandler):
 			return
 
 		for connection in world.worldconnection_set:
-			framework.unmemoize(connection.profile.url, 'world_listing')
+			memopad.forget(connection.profile.url, 'world_listing')
 		db.delete(world.worldconnection_set)
 		counter.Counter('%sWorldProfiles' % world.key_name, 1).delete()
 
 		for member in world.worldmember_set:
-			framework.unmemoize('/manage/', 'world_listing', member.user.nickname)
-			framework.unmemoize(member.user.url, 'world_listing')
+			memopad.forget('/manage/', 'world_listing', member.user.nickname)
+			memopad.forget(member.user.url, 'world_listing')
 		db.delete(world.worldmember_set)
 		counter.Counter('%sWorldMembers' % world.key_name, 1).delete()
 
@@ -345,8 +363,12 @@ class Delete(framework.BaseRequestHandler):
 			self.user.email(), world.name, world.author.user.email()
 		))
 
-		framework.unmemoize('/', 'world_listing')
-		framework.unmemoize('/discover/', 'world_listing')
+		#TODO: Transition from memopad.forget's to versioning
+		# Update the global world listing
+		#memcache.incr('world_listing', 1, 'cache_version', 0)
+
+		memopad.forget('/', 'world_listing')
+		memopad.forget('/discover/', 'world_listing')
 
 		self.flash.msg = "World: %s Deleted" % world.name
 		self.redirect('/')
@@ -404,8 +426,14 @@ class Join(framework.BaseRequestHandler):
 
 			db.put(messages)
 
-			framework.unmemoize(profile.url, 'world_listing')
-			framework.unmemoize(world.url, 'profile_listing')
+			#TODO: Transition from memopad.forget's to versioning
+			# Update the profile's cache
+			#memcache.incr(profile.key_name +'_world_listing', 1, 'cache_version', 0)
+			# Update the world's profile cache
+			#memcache.incr(world.key_name +'_profile_listing', 1, 'cache_version', 0)
+
+			memopad.forget(profile.url, 'world_listing')
+			memopad.forget(world.url, 'profile_listing')
 			return True
 
 		return False
@@ -454,8 +482,14 @@ class Leave(framework.BaseRequestHandler):
 			)
 			db.put(messages)
 
-			framework.unmemoize(profile.url, 'world_listing')
-			framework.unmemoize(world.url, 'profile_listing')
+			#TODO: Transition from memopad.forget's to versioning
+			# Update the profile's cache
+			#memcache.incr(profile.key_name +'_world_listing', 1, 'cache_version', 0)
+			# Update the world's profile cache
+			#memcache.incr(world.key_name +'_profile_listing', 1, 'cache_version', 0)
+
+			memopad.forget(profile.url, 'world_listing')
+			memopad.forget(world.url, 'profile_listing')
 			return True
 
 		return False

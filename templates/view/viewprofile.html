@@ -11,7 +11,8 @@
 {% block contentnav %}
 {% if page_admin %}
 	<li><a href="{{ profile.edit_url }}">Edit</a></li> &bull;
-	<li><a href="{{ profile.delete_url }}">Delete</a></li> |
+	<li><a href="{{ profile.delete_url }}">Delete</a></li> &bull;
+	<li><a href="{{ request.url|filter_args("index") }}index">Index</a></li> |
 {% endif %}
 {% endblock %}
 
@@ -53,6 +54,7 @@
                 <h2>Comments</h2>
                 {% include 'common/comment_box.html' %}
             </li>
-
+{% endblock %}
+{% block sidebar_footer %}
 			<li><center>Copyright &copy; {{ year }} - <a href="{{ profile.author.url }}">{{ profile.author.nickname }}</a></center></li>
 {% endblock %}

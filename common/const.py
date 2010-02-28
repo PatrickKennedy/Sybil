@@ -32,6 +32,13 @@ import	uuid
 from	google.appengine.api	import users
 
 _DEBUG = False
+
+URL_PATTERNS = {
+	'user': '/%s/',
+	'profile': '/%s/%s/',
+	'world': '/world/%s/',
+}
+
 # Possible output types a page can have.
 OUTPUT_TYPES = {
 	'default':	{'header':'text/html; charset=utf-8', 'ext':'html'},
@@ -43,7 +50,7 @@ OUTPUT_TYPES = {
 	'json':		{'header':'application/json; charset=utf-8'},
 }
 # Args that are dropped from serilized urls.
-_STERILIZED_ARGS = ['msg', 'msg_type', 'flush_cache', 'refresh_cache', 'output']
+STERILIZED_ARGS = ['flush_cache', 'refresh_cache', 'output']
 
 #Can be used to determine if udata exists.
 #BOGUS_USER = users.User('bogus@example.com')

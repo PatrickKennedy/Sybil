@@ -27,20 +27,16 @@
 #  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 #  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import  time
-import  logging
-import  os
+import time
+import logging
+import os
 
-from    google.appengine.api import memcache
-from    google.appengine.ext import webapp
+from google.appengine.api import memcache
 
-from    common      import stores, utils
+from common import stores, utils
 
-from    datetime    import datetime
-from    urlparse    import urlparse
-
-# get registry, we need it to register our filter later.
-register = webapp.template.create_template_register()
+from datetime import datetime
+from urlparse import urlparse
 
 def _now():
     now = time.localtime()[:6]
@@ -110,9 +106,19 @@ def trunc(string, n=3):
     string = str(string)
     return string[:n]+'...'+string[-n:]
 
+
 class MarkupStorage(object): pass
 
+try:
+    # ultramarkup stores the current MarkupStorage in the local cache
+    # which should mean multiple markup calls for a single object will
+    # result in a single call to the memcache.
+    ultramarkup
+except:
+    ultramarkup = MarkupStorage()
+
 def markup(obj, attr, nocache=False, norender=False):
+    global ultramarkup
 
     # Return the prerendered version of the attribute, if applicable.
     if norender and hasattr(obj, 'html_%s' % attr):
@@ -126,20 +132,27 @@ def markup(obj, attr, nocache=False, norender=False):
     if not hasattr(obj, 'markup'):
         return value
 
-    cache_key = "markup:%s" % (obj.key_name)
-    result = memcache.get(cache_key) or MarkupStorage()
+    cache_key = "markup:%s:%s" % (obj.version, obj.key_name)
+    # We use getattr because it doesn't initiate with a cache_key attribute
+    if getattr(ultramarkup, "cache_key", '') == cache_key:
+        result = ultramarkup
+    else:
+        result = memcache.get(cache_key) or MarkupStorage()
+        result.cache_key = cache_key
+        result.version = obj.version
+        ultramarkup = result
 
     if not hasattr(result, attr):
-        setattr(result, attr, eval(obj.markup.lower())(value, extra))
+        setattr(result, attr, eval("markup_"+ obj.markup.lower())(value, extra))
         if not nocache:
             memcache.set(cache_key, result)
 
     return getattr(result, attr)
 
-def plaintext(value, extra=''):
+def markup_plaintext(value, extra=''):
     return value
 
-def textile(value, extra=''):
+def markup_textile(value, extra=''):
     try:
         import lib.textile
     except ImportError:
@@ -150,7 +163,7 @@ def textile(value, extra=''):
             value = u'%s\n\r%s' % (value, extra)
         return lib.textile.textile(value, encoding='utf8', output='ascii')
 
-def markdown(value, extra=''):
+def markup_markdown(value, extra=''):
     try:
         import markdown
     except ImportError:
@@ -160,10 +173,11 @@ def markdown(value, extra=''):
             value = '%s\n\r%s' % (value, extra)
         return markdown.markdown(value)
 
-def rest(value, extra=''):
+def markup_rest(value, extra=''):
     try:
         from docutils.core import publish_parts
     except ImportError:
+        logging.exception("Fail")
         return value
     else:
         # logging.info("Rendering using ReST")

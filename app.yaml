@@ -1,5 +1,5 @@
 application: sybil
-version: production
+version: search
 runtime: python
 api_version: 1
 
@@ -7,6 +7,9 @@ handlers:
 - url: /remote_api
   script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
   login: admin
+
+- url: /stats.*
+  script: $PYTHON_LIB/google/appengine/ext/appstats/ui.py
 
 # -------------------------------------
 #      Files
@@ -28,6 +31,10 @@ handlers:
   static_files: static/robots.txt
   upload: static/robots.txt
 
+- url: /robotdebug.html
+  static_files: static/robotdebug.html
+  upload: static/robotdebug.html
+
 - url: /sitemap.xml
   script: sitemap.py
 
@@ -36,12 +43,15 @@ handlers:
   upload: static/sitemap.xml
 
 - url: /src\.zip
-  script: views/zipme.py
+  script: zipme.py
 
 
 # -------------------------------------
 #      Urls
 # -------------------------------------
+- url: /_wave/.*
+  script: wavebot.py
+
 - url: /console/static
   static_dir: console/app/view/static
 
@@ -67,6 +77,10 @@ handlers:
 - url: /world/(edit|delete|join|leave)/?
   script: controller.py
   login: required
+  
+- url: /tasks/.*
+  script: controller.py
+  login: admin
   
 - url: /.+/(edit|delete)/?
   script: controller.py

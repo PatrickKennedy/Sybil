@@ -153,13 +153,11 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Unused in query history -- copied from input.
 - kind: Profile
   properties:
   - name: author
   - name: __key__
 
-# Unused in query history -- copied from input.
 - kind: Profile
   properties:
   - name: author
@@ -167,25 +165,21 @@ indexes:
   - name: created
     direction: desc
 
-# Unused in query history -- copied from input.
 - kind: Profile
   properties:
   - name: public
   - name: unix_name
 
-# Unused in query history -- copied from input.
 - kind: World
   properties:
   - name: author
   - name: __key__
 
-# Unused in query history -- copied from input.
 - kind: WorldConnection
   properties:
   - name: world
   - name: __key__
 
-# Unused in query history -- copied from input.
 - kind: WorldMember
   properties:
   - name: world

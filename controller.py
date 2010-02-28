@@ -27,8 +27,6 @@
 #  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 #  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-import random
-
 #import controllers
 import controllers.about
 import controllers.create
@@ -37,10 +35,10 @@ import controllers.discover
 import controllers.firstvisit
 import controllers.main
 import controllers.manage
+import controllers.search
 import controllers.tasks
 import controllers.update
 import controllers.worlds
-import controllers.zipme
 import lib.search
 
 from common import framework
@@ -74,11 +72,15 @@ _URLS = [
 	('^/first/visit/', controllers.firstvisit.FirstVisit),
 
 	# manage.py
-	('^/manage/?', controllers.manage.Index),
+	('^/manage/', controllers.manage.Index),
+	('^/manage/index/([^\/]+)/', controllers.manage.SearchIndexing),
 	('^/manage/update/([^\/]+)/', controllers.manage.UpdateSingle),
 	('^/manage/update/', controllers.manage.Update),
 	('^/manage/edit/', controllers.manage.Edit),
 	('^/manage/dismiss/', controllers.manage.Dismiss),
+	
+	# search.py
+	('^/search/', controllers.search.Index),
 
 	# update.py
 	('^/update/count/([^/]+)/(?:([^/]+)/)?', controllers.update.Count),
@@ -87,7 +89,7 @@ _URLS = [
 	# tasks.py
 	('^/tasks/world/([^/]+)/(?:([^/]+)/)?', controllers.tasks.WorldWorker),
 	('^/tasks/logging/', controllers.tasks.LoggingWorker),
-	('^/tasks/searchindexing/', lib.search.SearchIndexing),
+	('^/tasks/index/', controllers.tasks.IndexWorker),
 
 	# worlds.py
 	('^/world/edit/([^/]+)/', controllers.worlds.Edit),
@@ -96,9 +98,8 @@ _URLS = [
 	('^/world/leave/', controllers.worlds.Leave),
 	('^/world/(?:([^/]+)/)?', controllers.worlds.Index),
 
-
-	# zipme.py
-	('/src.zip', controllers.zipme.ZipMaker),
+	# wave.py
+	('^/world/(?:([^/]+)/)?', controllers.worlds.Index),
 
 	# main.py
 	('^/', controllers.main.Index),
@@ -111,11 +112,5 @@ _URLS = [
 	('^/([^/]+)/', controllers.main.ViewUser),
 ]
 
-def main():
-	if not random.randint(0, 25):
-		framework.profile_main(_URLS)
-	else:
-		framework.real_main(_URLS)
-
 if __name__ == '__main__':
-	main()
+	framework.main(_URLS)

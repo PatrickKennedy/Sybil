@@ -26,7 +26,6 @@
 #  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 #  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 #  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 from __future__ import with_statement
 
 import datetime
@@ -37,27 +36,36 @@ import sys
 import urllib
 import urlparse
 
-sys.path.insert(0, os.path.join('lib', 'Jinja2-2.1.1-py2.5-win32.egg'))
-sys.path.insert(0, os.path.join('lib', 'simplejson-2.0.9-py2.5-win32.egg'))
-
 from google.appengine.api	import users, memcache
 from google.appengine.ext	import webapp
 from google.appengine.ext.webapp	import template
 
-#webapp.template.register_template_library('common.templatefilters')
-#webapp.template.register_template_library('django.contrib.markup.templatetags.markup')
-
-from lib import datastore_cache
-datastore_cache.DatastoreCachingShim.Install()
-
 from common	import const, counter, flash, utils
 from common.stores	import UserData
 from common.templatefilters	import register_filters
+from lib import datastore_cache
+
+
+sys.path.insert(0, os.path.join('lib', 'docutils-0.6-py2.5-win32.egg'))
+sys.path.insert(0, os.path.join('lib', 'Jinja2-2.3.1-py2.5-win32.egg'))
+sys.path.insert(0, os.path.join('lib', 'simplejson-2.0.9-py2.5-win32.egg'))
+
+
+#webapp.template.register_template_library('common.templatefilters')
+#webapp.template.register_template_library('django.contrib.markup.templatetags.markup')
+
+#datastore_cache.DatastoreCachingShim.Install()
+
 
 try:
 	import jinja2
 except:
 	pass
+
+try:
+	ultracache
+except:
+	ultracache = {}
 
 class TemplateRenderer(object):
 	def __init__(self, template_path, context={}, output='html'):
@@ -69,6 +77,8 @@ class TemplateRenderer(object):
 		# Format the last item of the path into a filename.
 		template_name = "%s.%s" % (template_path.pop().lower(), output_info['ext'])
 		path_ = []
+		path_.append(os.path.join('.', 'templates_compiled'))
+		path_.append(os.path.join('.', 'templates_compiled', *template_path))
 		path_.append(os.path.join('.', 'templates'))
 		path_.append(os.path.join('.', 'templates', *template_path))
 		path_.append(template_name)
@@ -88,13 +98,33 @@ class TemplateRenderer(object):
 			def __getattr__(*args, **kwargs): return ''
 			def __getitem__(*args, **kwargs): return ''
 
+		class PythonLoader(jinja2.FileSystemLoader):
+			def load(self, environment, name, globals=None):
+				"""Loads a Python code template."""
+				if globals is None:
+					globals = {}
+				code = ultracache.get(name.encode("base64"), None)
+				if code is None:
+					code, filename, uptodate = self.get_source(environment, name)
+					if not code.startswith("from __future__"):
+						code = environment.compile(code, name, filename)
+					else:
+						# Quick and dirty fix to get the code to compile
+						# TODO: Recompile with correct line endings
+						code = code.replace('\r\n', '\n')
+						code = compile(code, filename, 'exec')
+				ultracache[name.encode("base64")] = code
+				return environment.template_class.from_code(environment, code,
+															globals)
+
 		env = jinja2.Environment(
-			loader = jinja2.FileSystemLoader(path_[:-1]),
+			loader = PythonLoader(path_[:-1]),
 			undefined = DjangoUndefined,
 		)
 		register_filters(env)
 		template = env.get_template(path_[-1])
 		content = template.render(context)
+		#logging.info("Rednering %s" % path_[-1])
 		return content
 
 	def render_django(self, path_, context):
@@ -192,10 +222,10 @@ class BaseRequestHandler(webapp.RequestHandler):
 				cf_script = udata.cf_script
 		else:
 			cf_script = 'daze'
-			
-		if not use_custom_cf:	
-			path = os.path.join('.', 'data', 'contextfree', '%s.txt' % cf_script.lower())	
-			if cf_script and os.path.exists(path):	
+
+		if not use_custom_cf:
+			path = os.path.join('.', 'data', 'contextfree', '%s.txt' % cf_script.lower())
+			if cf_script and os.path.exists(path):
 				with open(path) as f:
 					cf_credit = f.readline()
 					cf_script = f.read()
@@ -221,6 +251,7 @@ class BaseRequestHandler(webapp.RequestHandler):
 			'msg_count'	: msg_count,
 			'page_admin': users.is_current_user_admin(),
 			'request'	: self.request,
+			'search_q'	: get('q'),
 			'design'	: get('design'),
 			'theme'		: get('theme'),
 			'udata'		: udata,
@@ -387,7 +418,11 @@ class BaseRequestHandler(webapp.RequestHandler):
 		return False
 
 
-def real_main(urls):
+#def main(urls):
+#	real_main(urls) if random.randint(0, 25) else profile_main(urls)
+
+#def real_main(urls):
+def main(urls):
 	from google.appengine.ext.webapp.util import run_wsgi_app
 
 	application = webapp.WSGIApplication(urls, debug=const._DEBUG)
@@ -409,63 +444,12 @@ def profile_main(urls):
 	# stats.print_callers()
 	logging.info("Profile data:\n%s", stream.getvalue())
 
-class SterileUrl(unicode): pass
-
-def sterilize_url(url, *anti_args):
-	"""
-	Return a sterilized form of the url.
-
-	Example:
-		http://sybil.appspot.com/pakattack161?name=sybil&msg=Bacon+is+yummy!
-		-> /pakattack161?name=sybil
-
-	"""
-	if isinstance(url, SterileUrl):
-		return url
-	anti_args = list(anti_args)
-	url = utils._filter_url(url, const._STERILIZED_ARGS+anti_args)
-	if url[-1] == '?':
-		url = url[:-1]
-	return SterileUrl(url)
-
-def generate_cache_key(url, element, delinate=''):
-	"""
-	Generate a key for use with the element cache.
-
-	"""
-	if delinate:
-		delinate = ':'+delinate
-	return "render-cache:%d:%s%s" % (hash(sterilize_url(url)), element, delinate)
-
-def memoize(url, element, delinate='', refresh=False, flush=False, timeout=0, delete_timeout=0):
-	"""Decorator to memoize functions using memcache."""
-	def decorator(func):
-		def wrapper(*args, **kwargs):
-			cache_key = generate_cache_key(url, element, delinate)
-			if refresh:
-				unmemoize(url, element, delinate, delete_timeout)
-			data = utils.deserialize_models(memcache.get(cache_key))
-			if flush:
-				unmemoize(url, element, delinate, delete_timeout)
-			elif data is None:
-				data = func(*args, **kwargs)
-				memcache.set(cache_key, utils.serialize_models(data), timeout)
-				logging.debug("Memoizing: %s(%s)" % (cache_key, url))
-			return data
-		return wrapper
-	return decorator
-
-def unmemoize(url, element, delinate='', timeout=0):
-	cache_key = generate_cache_key(url, element, delinate)
-	logging.debug("Clearing: %s(%s)" % (cache_key, url))
-	return memcache.delete(cache_key, timeout)
-
 
 """
 Dear Lily, (or do you go by Alyssa now?)
 
   Originally this letter was to accompany a postcard and pair of socks, but,
-alas, international shipping got the best of me. However, I'd to delay this
+alas, international shipping got the best of me. However, I'd hate to delay this
 letter longer than necessary. You see, I long to make amends for the
 circumstances that sent us our separate ways some two years ago. I surprised
 myself at just how hard I took the news that decided you were a lesbian, not to

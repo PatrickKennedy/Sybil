@@ -44,7 +44,7 @@ from	google.appengine.api	import datastore
 from	google.appengine.api	import users
 from	google.appengine.ext	import webapp
 
-from	common			import framework, utils
+from	common			import framework, memopad, stores, utils
 from	common.stores	import Profile, World
 
 class Index(framework.BaseRequestHandler):
@@ -101,11 +101,12 @@ class ProfileFeed(framework.BaseRequestHandler):
 		user 		= utils.get_current_user()
 		get 		= self.request.get
 		refresh_cache = get('refresh_cache', False) is not False
-		sterile_url	= framework.sterilize_url(self.url)
+		sterile_url	= memopad.sterilize_url(self.url)
 
 		context = {}
 
-		@framework.memoize(sterile_url, 'profile_feed', refresh=refresh_cache)
+		#@memopad.learn(sterile_url, 'profile_feed', version_key="profile_listing", skip=refresh_cache)
+		@memopad.learn(sterile_url, 'profile_feed', skip=refresh_cache)
 		def __fetch_feed_data():
 			# Orders the profiles most recently created first.
 			q = Profile.all()
@@ -115,7 +116,6 @@ class ProfileFeed(framework.BaseRequestHandler):
 			return q.fetch(12)
 
 		context['profile_data'] = {'profiles': __fetch_feed_data()}
-
 		self.render(['feed', 'latestprofiles'], context, output)
 		return
 
@@ -156,9 +156,10 @@ class WorldFeed(framework.BaseRequestHandler):
 		user 		= utils.get_current_user()
 		get 		= self.request.get
 		refresh_cache = get('refresh_cache', False) is not False
-		sterile_url	= framework.sterilize_url(self.url)
+		sterile_url	= memopad.sterilize_url(self.url)
 
-		@framework.memoize(sterile_url, 'world_feed', refresh=refresh_cache)
+		#@memopad.learn(sterile_url, 'world_feed', version_key="world_listing", skip=refresh_cache)
+		@memopad.learn(sterile_url, 'world_feed', skip=refresh_cache)
 		def __fetch_feed_data():
 			# Orders the profiles most recently created first.
 			q = World.all()

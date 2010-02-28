@@ -112,13 +112,37 @@ class UUIDProperty(db.Property):
 			return None
 		return uuid.UUID(value)
 
+class SelfIncrementingProprety(db.IntegerProperty):
+	"""A property to assist in simple entity versioning."""
+	data_type = long
+	datastore_type = long
+
+	def __init__(self, verbose_name=None, auto_increment=1, **kwds):
+		"""Construct a SelfIncrementingProprety
+
+		Args:
+		  verbose_name: Verbose name is always first parameter.
+		  auto_increment: The property is incremented by this value every time
+			it is saved to the datastore.
+		"""
+		super(SelfIncrementingProprety, self).__init__(verbose_name, **kwds)
+		self.auto_increment = int(auto_increment)
+
+	def get_value_for_datastore(self, model_instance):
+		"""Get value from property to send to datastore.
+
+		Returns:
+		  The default implementation plus the value of auto_increment.
+		"""
+		value = super(SelfIncrementingProprety, self) \
+				.get_value_for_datastore(model_instance)
+		if self.auto_increment:
+			value += self.auto_increment
+		return value
+
 class ModelBase(object):
 	_memo_prefixes = []
-	_url_patterns = {
-		'user': '/%s/',
-		'profile': '/%s/%s/',
-		'world': '/world/%s/',
-	}
+	_url_patterns = const.URL_PATTERNS
 
 	@classmethod
 	def _key_from_path(cls, key_name, *parents):
@@ -134,17 +158,19 @@ class ModelCaching(object):
 	Provide convience functions for caching entities.
 
 	"""
+	# Every model is required to implement a version that gets incrimented
+	# version = db.IntegerProperty(default=0)
 
 	@staticmethod
 	def __fill_blanks(keys, results):
 		"""
-		
+
 		Work around the fact memcache.get_multi() doesn't return None for
 		non-existant keys and the fact dicts are unsorted.
-		
+
 		Return a list in the same order as they original key_names from
 		memcache.get_multi()'s dictionary, filling in "blanks" with None.
-		
+
 		"""
 		return [results.get(key, None) for key in keys]
 
@@ -157,10 +183,10 @@ class ModelCaching(object):
 		if not isinstance(key_names, list):
 			is_list = False
 			key_names = [key_names]
-		
+
 		r = cls.__fill_blanks(key_names, memcache.get_multi(key_names))
 		r = utils.deserialize_models(r)
-		
+
 		if not [x for x in r if x is not None]:
 			r = super(ModelCaching, cls).get_by_key_name(key_names, parent)
 			if r:
@@ -239,12 +265,14 @@ class UserData(db.Expando, ModelCaching, ModelBase):
 	This permanently ties them to the user's Google account.
 
 	"""
+	version = SelfIncrementingProprety(auto_increment=1, default=0)
 
 	user	= db.UserProperty()
 	joined	= db.DateTimeProperty(auto_now_add=True)
 	last_seen	= db.DateTimeProperty(auto_now=True)
 	nickname	= db.StringProperty(default='')
 	unix_nick	= db.StringProperty(default='')
+	wave_address	= db.StringProperty(default='')
 	theme		= db.StringProperty(default='framed')
 	design		= db.StringProperty(default='original')
 
@@ -329,20 +357,20 @@ class UserData(db.Expando, ModelCaching, ModelBase):
 
 		return data
 
-
 class Profile(search.Searchable, ModelCaching, db.Expando, ModelBase):
 	"""
 
 	A Profile is the primary storage unit in Sybil.
 
 	It's key_name should be of the form:
-		'p:profile.unix_name;author.key_name'
+		'p:profile.unix_name:author.key_name'
 	Which, unfortunately, means name changes are anything but simple (as all
 	connections and comments will be tied to the key_name).
 
 	Bulk actions performed on profiles should be part of a speedy task queue.
 
 	"""
+	version = SelfIncrementingProprety(auto_increment=1, default=0)
 
 	author		= db.ReferenceProperty(UserData)
 	created		= db.DateTimeProperty(auto_now_add=False)
@@ -371,7 +399,7 @@ class Profile(search.Searchable, ModelCaching, db.Expando, ModelBase):
 	]
 	INDEX_TITLE_FROM_PROP = 'name'
 
-	_memo_prefixes = ['markup']
+	_memo_prefixes = []
 	key_name_form = 'p:%s:%s'
 
 	@property
@@ -402,11 +430,13 @@ class World(search.Searchable, ModelCaching, db.Expando, ModelBase):
 		'w:world.unix_name'
 
 	"""
+	version = SelfIncrementingProprety(auto_increment=1, default=0)
 
 	author		= db.ReferenceProperty(UserData)
 	name		= db.StringProperty(required=True)
 	unix_name	= db.StringProperty(required=True)
 	created	= db.DateTimeProperty(auto_now_add=False)
+	updated = db.DateTimeProperty(auto_now_add=False)
 
 	about	= db.TextProperty(default='')
 	links	= db.TextProperty(default='')
@@ -422,7 +452,7 @@ class World(search.Searchable, ModelCaching, db.Expando, ModelBase):
 	]
 	INDEX_TITLE_FROM_PROP = 'name'
 
-	_memo_prefixes = ['markup']
+	_memo_prefixes = []
 	key_name_form = 'w:%s'
 
 	@property
@@ -501,7 +531,7 @@ class WorldConnection(db.Model):
 class Timeline(db.Expando):
 	"""Container for specific events."""
 	name	= db.StringProperty(default='')
-	
+
 class Event(db.Expando):
 	"""Contains information regarding a specific event in time."""
 

@@ -43,7 +43,7 @@ from google.appengine.api		import capabilities, datastore, memcache, users
 from google.appengine.ext		import db, webapp
 from google.appengine.runtime	import apiproxy_errors
 
-from common			import counter, framework, stores, utils
+from common import counter, framework, memopad, stores, utils
 
 class WorldWorker(framework.BaseRequestHandler):
 	def post(self, action, sub_action=''):
@@ -62,7 +62,20 @@ class WorldWorker(framework.BaseRequestHandler):
 			return True
 
 		if db.run_in_transaction(txn):
-			framework.unmemoize(world.url, 'member_listing')
+			memopad.forget(world.url, 'member_listing')
+
+class IndexWorker(framework.BaseRequestHandler):
+	def post(self):
+		key_str = self.request.get('key')
+		index_only_str = self.request.get('index_only')
+		if key_str:
+			key = db.Key(key_str)
+			entity = db.get(key)
+			if not entity:
+				self.response.set_status(200)   # Clear task because it's a bad key
+			elif entity.public if hasattr(entity, 'public') else True:
+				index_only = index_only_str.split(',') if index_only_str else None
+				entity.index(index_only=index_only)
 
 class LoggingWorker(framework.BaseRequestHandler):
 	def post(self):
@@ -71,9 +84,12 @@ class LoggingWorker(framework.BaseRequestHandler):
 _URLS = [
 	#('^/tasks/profile/?', ProfileWorker),
 	#('^/tasks/comment/?', CommentWorker),
+	('^/tasks/index/', IndexWorker),
 	('^/tasks/world/([^/]+)/(?:([^/]+)/)?', WorldWorker),
 	('^/tasks/logging/', LoggingWorker),
 ]
+
+
 
 def main():
 	if not random.randint(0, 25):

@@ -2,11 +2,16 @@
 
 {% block title %}Home Sweet Home{% endblock %}
 
+{% block contentnav %}
+{% if page_admin %}
+	<li><a href="/manage/index/all/">Index All</a></li> |
+{% endif %}
+{% endblock %}
+
 {% block sidebar_header %}
     <li>
         <h2>Personal Page</h2>
         <ul><li>
-        Your personal user page.
         </ul></li>
     </li>
 
@@ -20,6 +25,12 @@
 						<td>Username</td>
 						<td>
 							<input type="text" name="nickname" value="{{ udata.nickname }}" />
+						</td>
+					</tr>
+					<tr>
+						<td>Wave Address</td>
+						<td>
+							<input type="text" name="wave_address" value="{{ udata.wave_address }}" />
 						</td>
 					</tr>
 					<tr>

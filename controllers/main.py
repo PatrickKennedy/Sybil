@@ -44,7 +44,7 @@ from	google.appengine.ext		import webapp
 from	google.appengine.ext.webapp	import template
 
 
-from	common			import counter, stores, utils, framework
+from	common			import counter, stores, framework, memopad, utils
 from	common.stores	import UserData
 from	common.stores	import Profile, World, Comment, WorldMember
 
@@ -65,16 +65,18 @@ class Index(framework.BaseRequestHandler):
 		context['len_'] = len_
 		context['names'] = names
 
-		sterile_url = framework.sterilize_url(self.request.url)
+		sterile_url = memopad.sterilize_url(self.request.url)
 
-		@framework.memoize(sterile_url, 'profile_listing', refresh=refresh_cache)
+		#@memopad.learn(sterile_url, 'profile_listing', version_key='profile_listing', skip=refresh_cache)
+		@memopad.learn(sterile_url, 'profile_listing', skip=refresh_cache)
 		def __fetch_profile_data():
 			query = stores.Profile.all()
 			query.filter('public =', True)
 			query.order('-updated')
 			return query.fetch(5)
 
-		@framework.memoize(sterile_url, 'world_listing', refresh=refresh_cache)
+		#@memopad.learn(sterile_url, 'world_listing', version_key='world_listing', skip=refresh_cache)
+		@memopad.learn(sterile_url, 'world_listing', skip=refresh_cache)
 		def __fetch_world_data():
 			query = World.all()
 			query.filter('public =', True)
@@ -202,8 +204,11 @@ class EditProfile(framework.BaseRequestHandler):
 
 		# Clear the profile from the memcache.
 		#Profile.unload(adata.key_name, profile.unix_name)
+		#TODO: Transition from memopad.forget's to versioning
+		# Update the global cache
+		#memcache.incr('profile_listing', 1, 'cache_version', 0)
 		# Update the latest profiles list on the front page.
-		framework.unmemoize('/', 'profile_listing')
+		memopad.forget('/', 'profile_listing')
 
 		self.flash.msg = "%s: Updated" % profile.name
 
@@ -287,12 +292,18 @@ class DeleteProfile(framework.BaseRequestHandler):
 					 profile.author.user.email(), profile.name
 		))
 
-		framework.unmemoize('/manage/', 'profile_listing', adata.nickname)
-		framework.unmemoize('/', 'profile_listing')
-		framework.unmemoize('/discover/', 'profile_listing')
-		framework.unmemoize('/discover/', 'profile_feed')
-		framework.unmemoize(profile.author.url, 'profile_listing')
-		framework.unmemoize(profile.author.url, 'profile_feed')
+		#TODO: Transition from memopad.forget's to versioning
+		# Update the global cache
+		#memcache.incr('profile_listing', 1, 'cache_version', 0)
+		# Update the profile author's cache
+		#memcache.incr(profile.author.key_name +'_profile_listing', 1, 'cache_version', 0)
+
+		memopad.forget('/manage/', 'profile_listing', adata.nickname)
+		memopad.forget('/', 'profile_listing')
+		memopad.forget('/discover/', 'profile_listing')
+		memopad.forget('/discover/', 'profile_feed')
+		memopad.forget(profile.author.url, 'profile_listing')
+		memopad.forget(profile.author.url, 'profile_feed')
 
 		self.flash.msg = "%s Deleted Sucessfully" % profile.name
 		self.redirect(profile.author.url)
@@ -321,7 +332,8 @@ class ViewProfile(framework.BaseRequestHandler):
 		page_admin 	= self.page_admin(author)
 		action 		= get('action')
 		refresh_cache = get('refresh_cache', False) is not False
-		sterile_url	= framework.sterilize_url(self.url)
+		index = get('index', False) is not False
+		sterile_url	= memopad.sterilize_url(self.url)
 
 		context = self.context
 		context['author'] = author
@@ -345,6 +357,9 @@ class ViewProfile(framework.BaseRequestHandler):
 				self.redirect(adata.url)
 			return
 
+		if index:
+			profile.index()
+
 		# Check for actions
 		if action:
 			if action == 'edit':
@@ -353,14 +368,15 @@ class ViewProfile(framework.BaseRequestHandler):
 				self.render(['delete', 'deleteprofile'], locals())
 			return
 
-		@framework.memoize(sterile_url, 'world_listing', refresh=refresh_cache)
+		#@memopad.learn(sterile_url, 'world_listing', version_key='world_listing', skip=refresh_cache)
+		@memopad.learn(sterile_url, 'world_listing', skip=refresh_cache)
 		def __fetch_world_data():
 			# This bit of hackery is used to fetch the actual world objects
 			# as opposed to the connection, which don't fetch their references
 			# when called inside the html.
 			return [conn.world for conn in profile.worldconnection_set.fetch(5)]
 
-		
+
 		def __build_comment_data():
 			page = self.request.get_range('comments_page', min_value=1, default=1)
 			items_per_page = self.request.get_range(
@@ -377,8 +393,8 @@ class ViewProfile(framework.BaseRequestHandler):
 			if len(comments) > items_per_page:
 				last_page = False
 				comments.pop()
-				
-			@framework.memoize(sterile_url, 'comment_listing', refresh=refresh_cache)
+
+			@memopad.learn(sterile_url, 'comment_listing', skip=refresh_cache)
 			def fetch():
 				return comments
 
@@ -417,7 +433,7 @@ class ViewUser(framework.BaseRequestHandler):
 		get 		= self.request.get
 		action 		= get('action')
 		refresh_cache = get('refresh_cache', False) is not False
-		sterile_url	= framework.sterilize_url(self.request.url)
+		sterile_url	= memopad.sterilize_url(self.request.url)
 
 		context = self.context
 		context['author'] = author
@@ -425,7 +441,7 @@ class ViewUser(framework.BaseRequestHandler):
 		context['page_admin'] = page_admin
 
 
-		
+		#TODO: Convert this to memopad.paginate
 		def __build_profile_data():
 			order 	= get('order', 'created').lower()
 			page 	= self.request.get_range('profiles_page', min_value=1, default=1)
@@ -451,14 +467,16 @@ class ViewUser(framework.BaseRequestHandler):
 			if len(profiles) > items_per_page:
 				last_page = False
 				profiles.pop()
-				
-			@framework.memoize(sterile_url, 'profile_listing', refresh=refresh_cache)
+
+			#@memopad.learn(sterile_url, 'profile_listing', version_key=adata.key_name +'profile_listing', skip=refresh_cache)
+			@memopad.learn(sterile_url, 'profile_listing', skip=refresh_cache)
 			def fetch():
 				return profiles
-			
+
 			return {'profiles':fetch(), 'page':page, 'last_page':last_page}
 
-		@framework.memoize(sterile_url, 'world_listing', refresh=refresh_cache)
+		#@memopad.learn(sterile_url, 'world_listing', version_key=adata.key_name +'world_listing', skip=refresh_cache)
+		@memopad.learn(sterile_url, 'world_listing', skip=refresh_cache)
 		def __fetch_world_memberships():
 			query = WorldMember.all()
 			query.filter('user =', adata)
@@ -495,13 +513,14 @@ class UserFeed(framework.BaseRequestHandler):
 		page_admin 	= self.page_admin(author)
 		get 		= self.request.get
 		refresh_cache = get('refresh_cache', False) is not False
-		sterile_url	= framework.sterilize_url(self.request.url)
+		sterile_url	= memopad.sterilize_url(self.request.url)
 
 		self.context['author'] = author
 		self.context['adata'] = adata
 		self.context['page_admin'] = page_admin
 
-		@framework.memoize(sterile_url, 'profile_feed', refresh=refresh_cache)
+		#@memopad.learn(sterile_url, 'profile_feed', version_key=adata.key_name +'profile_listing', skip=refresh_cache)
+		@memopad.learn(sterile_url, 'profile_feed', skip=refresh_cache)
 		def __fetch_feed_data():
 			# Orders the profiles most recently created first.
 			q = adata.profile_set

@@ -45,7 +45,7 @@ from google.appengine.api		import capabilities, datastore, memcache, users
 from google.appengine.ext		import db, webapp
 from google.appengine.runtime	import apiproxy_errors
 
-from common			import counter, framework, stores, utils
+from common	import counter, framework, memopad, stores, utils
 
 
 class Index(framework.BaseRequestHandler):
@@ -137,12 +137,18 @@ class NewProfile(framework.BaseRequestHandler):
 		logging.info('User (%s) has made a new character (%s)' %
 					 (self.udata.user.email(), profile.name))
 
-		framework.unmemoize('/manage/', 'profile_listing', self.udata.nickname)
-		framework.unmemoize('/', 'profile_listing')
-		framework.unmemoize('/discover/', 'profile_listing')
-		framework.unmemoize('/discover/', 'profile_feed')
-		framework.unmemoize(profile.author.url, 'profile_listing')
-		framework.unmemoize(profile.author.url, 'profile_feed')
+		#TODO: Transition from memopad.forget's to versioning
+		# Update the global cache
+		#memcache.incr('profile_listing', 1, 'cache_version', 0)
+		# Update the profile author's cache
+		#memcache.incr(profile.author.key_name +'_profile_listing', 1, 'cache_version', 0)
+
+		memopad.forget('/manage/', 'profile_listing', self.udata.nickname)
+		memopad.forget('/', 'profile_listing')
+		memopad.forget('/discover/', 'profile_listing')
+		memopad.forget('/discover/', 'profile_feed')
+		memopad.forget(profile.author.url, 'profile_listing')
+		memopad.forget(profile.author.url, 'profile_feed')
 
 		self.flash.msg = "%s has been created" % name
 		self.redirect(profile.url)
@@ -165,7 +171,7 @@ class NewComment(framework.BaseRequestHandler):
 			getattr(self, func_name)(comment, host)
 			# Delete a previous cache entry
 			logging.info("REFERER: "+self.request.headers['REFERER'])
-			framework.unmemoize(self.request.headers['REFERER'], 'comment_listing')
+			memopad.forget(self.request.headers['REFERER'], 'comment_listing')
 		else:
 			logging.error('User (%s) attempted to create an unknown type of comment (%s)' %
 						  (utils.get_current_user(), type))
@@ -293,9 +299,12 @@ class NewWorld(framework.BaseRequestHandler):
 		logging.info('User (%s) has made a new world (%s)' %
 					 (self.user.email(), world.name))
 
-		framework.unmemoize('/', 'world_listing')
-		framework.unmemoize('/discover/', 'world_listing')
-		framework.unmemoize('/manage/', 'world_listing', self.udata.nickname)
+		#TODO: Transition from memopad.forget's to versioning
+		#memcache.incr('world_listing', 1, 'cache_version', 0)
+
+		memopad.forget('/', 'world_listing')
+		memopad.forget('/discover/', 'world_listing')
+		memopad.forget('/manage/', 'world_listing', self.udata.nickname)
 
 		self.flash.msg = "World (%s) created" % unix_name
 		self.redirect(world.url)

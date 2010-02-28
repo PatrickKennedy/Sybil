@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+{#
+This template defines the following blocks:
+ title - Results in "Sybil - <your title>"
+ head - Anything extra to be appended to the end of the head section.
+ header - Contains header.html by default.
+ content - Everything in the left pane.
+ content_nav - A ul above the sidebar content.
+ sidebar_header - Part of the sidebar ul which is placed above the ad.
+ sidebar - Everything below the ad and above the search.
+ sidebar_footer - Everything below the search and above the credits.
+ footer - Contains footer.html by default.
+#}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -84,6 +96,15 @@
                 </li></ul></li>
             {% endif %}
                 {% block sidebar %}{% endblock %}
+                <li>
+                    <h2>Search</h2>
+                    <ul><li>
+                    <form action="/search/" method="get">
+                        <input type="text" name="q" value="{% if search_q %}{{ search_q }}{% else %}search here!{% endif %}" />
+                        <input type="submit" value="Search" />
+                    </form>
+                </li></ul></li>
+                {% block sidebar_footer %}{% endblock %}
                 <li><center><img src="http://code.google.com/appengine/images/appengine-silver-120x30.gif"
 alt="Powered by Google App Engine" /></center></li>
             </ul><!-- end sidebar -->

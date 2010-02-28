@@ -5,6 +5,20 @@
 {% block description %}Sybil is a character profile manager that helps you keep your characters organized.{% endblock %}
 
 {% block content %}
+
+<p><h2>Profiles</h2>
+{%if profile_data.results %}{% include "common/profile_listing.html" %}
+{% else %}No matched profiles.
+{% endif %}</p>
+
+<p><h2>Worlds</h2>
+{%if world_data.results %}{% include "common/world_listing.html" %}
+{% else %}No matched worlds.
+{% endif %}</p>
+
+{% endblock %}
+
+{#% block content %}
 	<p><form action="/search/" method="post">
 		<input name="query" type="text" value="Search Here" /><input type="submit" value="Search!" /><br />
 		<label for="profiles">Profiles</label><input name="search_type" id="profiles" type="radio" value="profiles" />
@@ -19,5 +33,5 @@
 		{% endfor %}
 	{% endif %}
 	</ul>{% endif %}
-{% endblock %}
+{% endblock %#}
 

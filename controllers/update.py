@@ -187,7 +187,8 @@ class Index(framework.BaseRequestHandler):
 				next_url = '/'  # Finished processing, go back to main page.
 			# In this example, the default values of 0 for num_votes and avg_rating are
 			# acceptable, so we don't need to do anything other than call put().
-			obj.design = 'original'
+			obj.wave_address = obj.wave_addr
+			del obj.wave_addr
 			obj.put()
 
 			self.render_next(cls, last_key, next_name, next_url)
@@ -265,8 +266,8 @@ class Count(framework.BaseRequestHandler):
 		self.what = what
 		self.where = where
 		if not hasattr(self, what):
-			self.flash.msg = ('Unknown what.<br/>Common whats: all_profiles, '
-							  'user_profiles, world_profiles, etc.')
+			self.flash.msg = ('Unknown what (%s).<br/>Common whats: all_profiles, '
+							  'user_profiles, world_profiles, etc.' % what)
 			self.redirect(self.referer)
 			return
 
@@ -317,6 +318,36 @@ class Count(framework.BaseRequestHandler):
 			next_url = referer
 
 		self.render_next(current_count + new_count, next_url)
+
+	def index_all_profiles(self, what):
+		counter_data = self.counter_data
+		counter_data['cls'] = stores.Profile
+		# We're not putting any entities so we can fetch as many as possible.
+		counter_data['limit'] = 1000
+		counter_data['flash_msg'] = 'All Profiles Queued to be Indexed'
+
+		def counter_logic(objects):
+			[obj.enqueue_indexing(url='/tasks/index/') for obj in objects]
+			return len(objects)
+
+		counter_data['counter_logic'] = counter_logic
+
+		self.generic_counter()
+
+	def index_all_worlds(self, what):
+		counter_data = self.counter_data
+		counter_data['cls'] = stores.World
+		# We're not putting any entities so we can fetch as many as possible.
+		counter_data['limit'] = 1000
+		counter_data['flash_msg'] = 'All Worlds Queued to be Indexed'
+
+		def counter_logic(objects):
+			[obj.enqueue_indexing(url='/tasks/index/') for obj in objects]
+			return len(objects)
+
+		counter_data['counter_logic'] = counter_logic
+
+		self.generic_counter()
 
 	def all_users(self, what):
 		counter_data = self.counter_data
@@ -496,9 +527,9 @@ class Count(framework.BaseRequestHandler):
 			profile.word_count = utils.word_count(
 				profile.apperence, profile.background, profile.extra_info
 			)
-			profile.put()                       
-			return profile                      
-		
+			profile.put()
+			return profile
+
 		profile = db.run_in_transaction(txn)
 		self.flash.msg = 'Profile Word Count (%d)' % profile.word_count
 		self.redirect(self.request.headers['REFERER'])
